@@ -28,7 +28,7 @@ import { Button, SwipeableDrawer } from '@material-ui/core';
 
 
 
-export const AppBarPer = () => {
+export const TAppBarPer = () => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [state, setState] = React.useState({
@@ -51,36 +51,6 @@ export const AppBarPer = () => {
 
         setState({ ...state, [anchor]: open });
     };
-
-
-    const drawer = () => (
-        <div>
-            <List>
-                <Typography component="h5" variant="h6" color="inherit" noWrap className={classes.title}>
-                    IClounic - Clinica en linea
-                </Typography>
-                <Divider variant="middle" />
-                <Button variant="outlined"
-                    color="primary"
-                    className={classes.button}
-                    startIcon={<CheckIcon />}>
-                    Aceptar
-                </Button>
-                <Divider variant="middle" />
-                <Button
-                    variant="outlined"
-                    color="secondary"
-                    className={classes.button}
-                    startIcon={<DeleteIcon />}
-                >
-                    Rechazar
-                </Button>
-                <Divider />
-            </List>
-        </div>
-    )
-
-
 
     return (
         <>
@@ -113,11 +83,55 @@ export const AppBarPer = () => {
                 onClose={toggleDrawer('left', false)}
                 onOpen={toggleDrawer('left', true)}
             >
-                {drawer()}
-
+                <Divider variant="middle" />
+                <Button variant="outlined"
+                    color="primary"
+                    className={classes.button}
+                    startIcon={<CheckIcon />}>
+                    Aceptar
+                </Button>
+                <Divider variant="middle" />
+                <Button
+                    variant="outlined"
+                    color="secondary"
+                    className={classes.button}
+                    startIcon={<DeleteIcon />}
+                >
+                    Rechazar
+                </Button>
+                <Divider />
             </SwipeableDrawer>
 
-
+            <Drawer
+                variant="permanent"
+                classes={{
+                    paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+                }}
+                open={open}
+            >
+                <div className={classes.toolbarIcon}>
+                    <IconButton onClick={handleDrawerClose}>
+                        <ChevronLeftIcon />
+                    </IconButton>
+                </div>
+                <Divider variant="middle" />
+                <Button variant="outlined"
+                    color="primary"
+                    className={classes.button}
+                    startIcon={<CheckIcon />}>
+                    Aceptar
+                </Button>
+                <Divider variant="middle" />
+                <Button
+                    variant="outlined"
+                    color="secondary"
+                    className={classes.button}
+                    startIcon={<DeleteIcon />}
+                >
+                    Rechazar
+                </Button>
+                <Divider />
+            </Drawer>
         </>
     );
 }

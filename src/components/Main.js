@@ -28,7 +28,7 @@ function Copyright() {
 
 export const Main = () => {
     const classes = useStyles();
-    
+
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
     return (
@@ -45,17 +45,17 @@ export const Main = () => {
                             </Paper>
                         </Grid>
                         {/* Recent Deposits */}
-                        <Grid item xs={12} md={4} lg={3}>
+                        {/* <Grid item xs={12} md={4} lg={3}>
                             <Paper className={fixedHeightPaper}>
                                 BBB
                             </Paper>
-                        </Grid>
+                        </Grid> */}
                         {/* Recent Orders */}
-                        <Grid item xs={12}>
+                        {/* <Grid item xs={12}>
                             <Paper className={classes.paper}>
                                 CCC
-                            </Paper>
-                        </Grid>
+                            </Paper> */}
+                        {/* </Grid> */}
                     </Grid>
                     <Box pt={4}>
                         <Copyright />

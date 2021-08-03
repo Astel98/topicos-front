@@ -12,6 +12,7 @@ import { Main } from '../components/Main';
 import { useStyles } from '../common/estilos'
 import { Lista } from '../components/solicitud/Lista';
 import { Registro } from '../components/register/Registro';
+import { RegistroDoctor } from '../components/register/RegistroDoctor';
 
 export const AppRouter = () => {
 
@@ -24,7 +25,7 @@ export const AppRouter = () => {
                 <Switch>
                     <Route
                         path="/auth/login"
-                        component={Lista}
+                        component={Main}
                     />
 
                     <Route
@@ -33,8 +34,18 @@ export const AppRouter = () => {
                     />
 
                     <Route
+                        path="/lista"
+                        component={Lista}
+                    />
+
+                    <Route
                         path="/registro"
                         component={Registro}
+                    />
+
+                    <Route
+                        path="/registroDoc"
+                        component={RegistroDoctor}
                     />
 
                     <Redirect to="/auth/login" />
