@@ -13,6 +13,7 @@ import { useStyles } from '../common/estilos'
 import { Lista } from '../components/solicitud/Lista';
 import { Registro } from '../components/register/Registro';
 import { RegistroDoctor } from '../components/register/RegistroDoctor';
+import { AuthRouter } from './AuthRouter';
 
 export const AppRouter = () => {
 
@@ -25,7 +26,7 @@ export const AppRouter = () => {
                 <Switch>
                     <Route
                         path="/auth/login"
-                        component={Main}
+                        component={AuthRouter}
                     />
 
                     <Route

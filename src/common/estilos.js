@@ -8,6 +8,9 @@ export const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
     },
+    margin: {
+        paddingTop: '100px',
+    },
     toolbar: {
         paddingRight: 24, // keep right padding when drawer closed
     },

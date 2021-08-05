@@ -13,7 +13,6 @@ import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -22,6 +21,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import CheckIcon from '@material-ui/icons/Check';
 import { Lista } from './solicitud/Lista';
 import { Button, SwipeableDrawer } from '@material-ui/core';
+import { Link } from "react-router-dom"
 
 
 
@@ -56,25 +56,31 @@ export const AppBarPer = () => {
     const drawer = () => (
         <div>
             <List>
-                <Typography component="h5" variant="h6" color="inherit" noWrap className={classes.title}>
+                <Typography component="h4" variant="h4" color="inherit" noWrap className={classes.title}>
                     IClounic - Clinica en linea
                 </Typography>
                 <Divider variant="middle" />
-                <Button variant="outlined"
-                    color="primary"
-                    className={classes.button}
-                    startIcon={<CheckIcon />}>
-                    Aceptar
-                </Button>
-                <Divider variant="middle" />
-                <Button
-                    variant="outlined"
-                    color="secondary"
-                    className={classes.button}
-                    startIcon={<DeleteIcon />}
-                >
-                    Rechazar
-                </Button>
+                <Link to="/registro">
+                    <Button className={classes.title}>
+                        Registro Usuario
+                    </Button>
+                </Link>
+
+                <Link to="/registroDoc">
+                    <Button className={classes.title}>
+                        Registro Doctor
+                    </Button>
+                </Link>
+
+                <Divider />
+
+                <Link to="/lista">
+                    <Button className={classes.title}>
+                        Listar Solicitudes
+                    </Button>
+                </Link>
+
+
                 <Divider />
             </List>
         </div>

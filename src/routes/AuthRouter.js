@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Switch, Route, Redirect } from 'react-router-dom';
+import { Login } from '../components/auth/Login';
 import { Main } from '../components/Main';
 
 
@@ -12,13 +13,13 @@ export const AuthRouter = () => {
                     <Route 
                         exact
                         path="/auth/login"
-                        component={ Main }
+                        component={ Login }
                     />
 
                     <Route 
                         exact
                         path="/auth/register"
-                        component={ Main }
+                        component={ Login }
                     />
 
                     <Redirect to="/auth/login" />

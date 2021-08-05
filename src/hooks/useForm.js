@@ -31,6 +31,7 @@ export const useForm = (initialState = {}) => {
 
 }
 
+
 export const useFormDoc = (initialState = {}) => {
 
     const [docs, setDocs] = useState(initialState);
@@ -52,3 +53,29 @@ export const useFormDoc = (initialState = {}) => {
     return { docs, handleInputChangeDoc, reset }
 
 }
+
+
+// //Password
+// const [pass, setPass] = useState('password');
+// const [icono, setIcono] = useState('bi bi-eye-slash');
+// const alternarPass = () => {
+//     if (pass === 'password') {
+//         setPass('text')
+//         setIcono('bi bi-eye')
+//     } else {
+//         setPass('password')
+//         setIcono('bi bi-eye-slash')
+//     };
+// }
+// //Confirmar Password
+// const [confir, setConfir] = useState('password');
+// const [iconoC, setIconoC] = useState('bi bi-eye-slash');
+// const alternarConfir = () => {
+//     if (confir === 'password') {
+//         setConfir('text')
+//         setIconoC('bi bi-eye')
+//     } else {
+//         setConfir('password')
+//         setIconoC('bi bi-eye-slash')
+//     };
+// }

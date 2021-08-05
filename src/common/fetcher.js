@@ -1,6 +1,9 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 
 const baseUrl = 'http://67.205.186.119:8080';
+
+
 
 export const fetchSinToken = async ( endpoint, data, method = 'GET' ) => {
 
@@ -47,5 +50,30 @@ export const fetchSinTokenDoc = async ( endpoint, data, method = 'GET' ) => {
         console.log("fetched3");
 
         return fetched;
+    }
+}
+
+
+export const fetchConToken = ( endpoint, access, data, method = 'GET' ) => {
+
+
+    const url = `${ baseUrl }/${ endpoint }/`;
+
+    if ( method === 'GET' ) {
+        return fetch( url, {
+            method,
+            headers: {
+                'Authorization': 'Bearer '+access
+            }
+        });
+    } else {
+        return fetch( url, {
+            method,
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': 'Bearer '+access
+            },
+            body: JSON.stringify( data )
+        });
     }
 }

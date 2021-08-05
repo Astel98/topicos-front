@@ -17,7 +17,8 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CheckIcon from '@material-ui/icons/Check';
 import { Button } from '@material-ui/core';
-import { fetchSinToken } from '../../common/fetcher';
+import { fetchSinToken, fetchConToken } from '../../common/fetcher';
+import { useSelector } from 'react-redux';
 
 
 const init = {
@@ -52,6 +53,8 @@ const init = {
 
 export const Lista = () => {
 
+    const { name } = useSelector(state => state.auth)
+
     const [imagen, setImagen] = useState({});
     const [lista, setLista] = useState([])
 
@@ -64,12 +67,11 @@ export const Lista = () => {
     });
 
     const getLista = async () => {
-        const res = await fetchSinToken(`solicitudes`, '', 'GET')
-
+        const res = await fetchConToken(`solicitudes`, name, '', 'GET')
+        console.log(res)
         const resData = await res.json();
 
         setLista(resData);
-
 
         console.log(resData);
 
@@ -132,19 +134,30 @@ export const Lista = () => {
                 break;
 
             case 'getCI':
-                const img = await fetchSinToken(`doctores/${id}/descargar_img`, '', 'GET')
+                const img = await fetchSinToken(`doctores/${id}/descargar_ci`, '', 'GET')
 
                 const imgData = await img.blob();
 
                 var url = window.URL.createObjectURL(imgData);
-            var a = document.createElement('a');
-            a.href = url;
-            a.download = "filename.xlsx";
-            document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
-            a.click();    
-            a.remove();
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = "filename";
+                document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+                a.click();
+                a.remove();
 
             case 'getTitulo':
+                const img2 = await fetchSinToken(`doctores/${id}/descargar_titulo`, '', 'GET')
+
+                const imgData2 = await img2.blob();
+
+                var url2 = window.URL.createObjectURL(imgData2);
+                var a2 = document.createElement('a');
+                a2.href = url2;
+                a2.download = "filename";
+                document.body.appendChild(a2); // we need to append the element to the dom -> otherwise it will not work in firefox
+                a2.click();
+                a2.remove();
 
             default:
                 break;
@@ -252,7 +265,7 @@ export const Lista = () => {
                                                     variant="outlined"
                                                     color="primary"
                                                     className={classes.button}
-                                                    onClick={() => handleButton('getCI', row.doctor.person)}
+                                                    onClick={() => handleButton('getCI', row.doctor.persona)}
                                                 >
                                                     CI
                                                 </Button>
@@ -260,7 +273,7 @@ export const Lista = () => {
                                                     variant="outlined"
                                                     color="primary"
                                                     className={classes.button}
-                                                    onClick={() => handleButton('getTitulo', row.doctor.person)}
+                                                    onClick={() => handleButton('getTitulo', row.doctor.persona)}
                                                 >
                                                     Titulo
                                                 </Button>

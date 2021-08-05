@@ -1,11 +1,15 @@
 
+import { Provider } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import './App.css';
 import { AppRouter } from './routes/AppRouter';
+import { store } from './store/store';
 
 function App() {
   return (
-    <AppRouter />
+    <Provider store={store}>
+      <AppRouter />
+    </Provider>
   );
 }
 

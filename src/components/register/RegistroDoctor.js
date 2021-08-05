@@ -390,7 +390,7 @@ export const RegistroDoctor = () => {
                                     />
                                 </Button>
 
-                                <h3>{pathFoto.toString()}</h3>
+                                <h3>{pathFoto.name}</h3>
 
                             </div>
 
@@ -412,7 +412,7 @@ export const RegistroDoctor = () => {
                                     />
                                 </Button>
 
-                                <h3>{pathCI.toString()}</h3>
+                                <h3>{pathCI.name}</h3>
                             </div>
 
                             <div className="row" style={{ padding: "1rem" }}>
@@ -433,7 +433,7 @@ export const RegistroDoctor = () => {
                                     />
                                 </Button>
 
-                                <h3>{pathTitulo.toString()}</h3>
+                                <h3>{pathTitulo.name}</h3>
 
 
                             </div>
