@@ -39,8 +39,8 @@ export const Login = () => {
 
 
     return (
-        <div>
-            <Card className={classes.margin} variant="outlined">
+        <div style={{paddingLeft: 'auto', paddingRight: 'auto'}}>
+            <Card className={classes.margin} variant="outlined" >
 
                 <form onSubmit={handleLogin}>
                     <CardContent>

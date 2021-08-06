@@ -41,10 +41,10 @@ export const Main = () => {
                         {/* Chart */}
                         <Grid item xs={12} md={8} lg={9}>
                             <Paper className={fixedHeightPaper}>
-                                AAA
+                                Pagina Principal del sitio
                             </Paper>
                         </Grid>
-                        Texto de relleno 1
+                        {/* Texto de relleno 1
                         <Grid item xs={12} md={4} lg={3}>
                             <Paper className={fixedHeightPaper}>
                                 BBB
@@ -55,7 +55,7 @@ export const Main = () => {
                             <Paper className={classes.paper}>
                                 CCC
                             </Paper>
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                     <Box pt={4}>
                         <Copyright />
