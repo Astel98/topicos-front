@@ -19,6 +19,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import { Button } from '@material-ui/core';
 import { fetchSinToken, fetchConToken } from '../../common/fetcher';
 import { useSelector } from 'react-redux';
+import { calcularEdad } from '../../common/funciones';
 
 
 const init = {
@@ -166,33 +167,6 @@ export const Lista = () => {
 
     }
 
-    const edad = (nacimiento) => {
-        let hoy = new Date()
-        let fechaNacimiento = new Date(nacimiento)
-        let edad = hoy.getFullYear() - fechaNacimiento.getFullYear()
-        let diferenciaMeses = hoy.getMonth() - fechaNacimiento.getMonth()
-        if (
-            diferenciaMeses < 0 ||
-            (diferenciaMeses === 0 && hoy.getDate() < fechaNacimiento.getDate())
-        ) {
-            edad--
-        }
-        return edad
-    }
-
-    function createData(name, calories, fat, carbs, protein, price) {
-        return {
-            name,
-            calories,
-            fat,
-            carbs,
-            protein,
-            price,
-            history: [
-                { date: '2020-01-05', customerId: '11091700', amount: 3 }
-            ],
-        };
-    }
 
     function Row(props) {
         const { row } = props;
@@ -213,7 +187,7 @@ export const Lista = () => {
                     </TableCell>
                     <TableCell align="right">{row.doctor.correo_electronico}</TableCell>
                     <TableCell align="right">{row.doctor.telefono}</TableCell>
-                    <TableCell align="right">{edad(row.doctor.fecha_nacimiento)}</TableCell>
+                    <TableCell align="right">{calcularEdad(row.doctor.fecha_nacimiento)}</TableCell>
                     <TableCell align="right">{row.doctor.ci}</TableCell>
                     <TableCell align="right">
                         <Button variant="outlined"
@@ -289,32 +263,6 @@ export const Lista = () => {
             </React.Fragment>
         );
     }
-
-    Row.propTypes = {
-        row: PropTypes.shape({
-            calories: PropTypes.string.isRequired,
-            carbs: PropTypes.string.isRequired,
-            fat: PropTypes.string.isRequired,
-            history: PropTypes.arrayOf(
-                PropTypes.shape({
-                    amount: PropTypes.number.isRequired,
-                    customerId: PropTypes.string.isRequired,
-                    date: PropTypes.string.isRequired,
-                }),
-            ).isRequired,
-            name: PropTypes.string.isRequired,
-            price: PropTypes.number.isRequired,
-            protein: PropTypes.number.isRequired,
-        }).isRequired,
-    };
-
-    const rows = [
-        createData('Jose Mario', 'mail@mail.com', '70611722', '1998/02/01', '65432', 3.99),
-        createData('Jose Mario', 'mail@mail.com', '70611722', '1998/02/01', '65432', 3.99),
-        createData('Jose Mario', 'mail@mail.com', '70611722', '1998/02/01', '65432', 3.99),
-        createData('Jose Mario', 'mail@mail.com', '70611722', '1998/02/01', '65432', 3.99),
-        createData('Jose Mario', 'mail@mail.com', '70611722', '1998/02/01', '65432', 3.99),
-    ];
 
     useEffect(() => {
         getLista();

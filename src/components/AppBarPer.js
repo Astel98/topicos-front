@@ -10,16 +10,9 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { useStyles } from '../common/estilos';
-import DeleteIcon from '@material-ui/icons/Delete';
-import CheckIcon from '@material-ui/icons/Check';
-import { Lista } from './solicitud/Lista';
 import { Button, SwipeableDrawer } from '@material-ui/core';
 import { Link } from "react-router-dom"
 
@@ -29,6 +22,9 @@ import { Link } from "react-router-dom"
 
 
 export const AppBarPer = () => {
+
+    const auth = localStorage.getItem('is-auth');
+
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [state, setState] = React.useState({
@@ -37,12 +33,6 @@ export const AppBarPer = () => {
         bottom: false,
         right: false,
     });
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -59,20 +49,24 @@ export const AppBarPer = () => {
                 <Typography component="h4" variant="h4" color="inherit" noWrap className={classes.title}>
                     IClounic - Clinica en linea
                 </Typography>
+
                 <Divider variant="middle" />
+
                 <Link to="/registro">
                     <Button className={classes.title}>
                         Registro Usuario
                     </Button>
                 </Link>
 
-                <Link to="/registroDoc">
+                <Divider variant="middle" />
+
+                <Link to="/registro-doc">
                     <Button className={classes.title}>
                         Registro Doctor
                     </Button>
                 </Link>
 
-                <Divider />
+                <Divider variant="middle" />
 
                 <Link to="/lista">
                     <Button className={classes.title}>
@@ -81,7 +75,7 @@ export const AppBarPer = () => {
                 </Link>
 
 
-                <Divider />
+                <Divider variant="middle" />
             </List>
         </div>
     )
@@ -93,7 +87,7 @@ export const AppBarPer = () => {
             <CssBaseline />
             <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
                 <Toolbar className={classes.toolbar}>
-                    <IconButton
+                    {auth ? <IconButton
                         edge="start"
                         color="inherit"
                         aria-label="open drawer"
@@ -101,19 +95,19 @@ export const AppBarPer = () => {
                         className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
                     >
                         <MenuIcon />
-                    </IconButton>
+                    </IconButton> : null}
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                        Dashboard
+                        IClounic - Tu clinica en linea
                     </Typography>
-                    <IconButton color="inherit">
+                    {/* <IconButton color="inherit">
                         <Badge badgeContent={4} color="secondary">
                             <NotificationsIcon />
                         </Badge>
-                    </IconButton>
+                    </IconButton> */}
                 </Toolbar>
             </AppBar>
 
-            <SwipeableDrawer
+            {auth ? <SwipeableDrawer
                 anchor={'left'}
                 open={state['left']}
                 onClose={toggleDrawer('left', false)}
@@ -121,7 +115,7 @@ export const AppBarPer = () => {
             >
                 {drawer()}
 
-            </SwipeableDrawer>
+            </SwipeableDrawer> : null}
 
 
         </>

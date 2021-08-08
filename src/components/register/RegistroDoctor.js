@@ -6,6 +6,7 @@ import { useForm, useFormDoc } from '../../hooks/useForm';
 import Paper from '@material-ui/core/Paper';
 import { AccountCircle, Event, VisibilityOff, AlternateEmail, AddIcCall, Home, LocalHospital } from '@material-ui/icons';
 import { fetchSinToken, fetchSinTokenDoc } from '../../common/fetcher';
+import { alertaError, alertaSuccess } from '../../common/alertas';
 
 
 
@@ -91,11 +92,11 @@ export const RegistroDoctor = () => {
             // console.log(bodyDoc)
 
             if (resp.ok && respDoc.ok) {
-                alert("CREADO")
+                alertaSuccess('Usuario creado exitosamente')
                 console.log(JSON.stringify(resp));
                 console.log(JSON.stringify(respDoc));
             } else {
-                console.log("AAAAAAAAAAa ERRORRRRR");
+                alertaError('Error durante la creacion de usuario');
             }
 
         } catch (error) {
@@ -112,20 +113,18 @@ export const RegistroDoctor = () => {
         if (contraseña === confirmar) {
             registrar();
         } else {
-            alert("Contraseñas no coinciden");
+            alertaError('Contraseñas no coinciden')
         }
     }
 
 
     return (
 
-        <Container maxWidth="md" component={Paper} style={{ paddingTop: "100px" }}>
+        <Container className={classes.divLogin}  maxWidth="md" component={Paper} >
 
             <h2>Formulario Registro</h2>
 
-
-
-            <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
+            <form noValidate autoComplete="off" onSubmit={handleSubmit}>
 
                 <Grid container spacing={1} alignContent="center" alignItems="center">
                     <Grid container xs={"auto"} item spacing={1}>

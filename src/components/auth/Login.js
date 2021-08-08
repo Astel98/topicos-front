@@ -2,17 +2,16 @@ import { Card, CardContent, Typography, CardActions, FormControl, Button, Input,
 import { AccountCircle, VisibilityOff } from '@material-ui/icons';
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
-import { login, startLoginEmailPassword } from '../../actions/auth';
+import { Link, Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import { startLoginEmailPassword } from '../../actions/auth';
 import { useStyles } from '../../common/estilos';
-import { fetchSinToken } from '../../common/fetcher';
 import { useForm } from '../../hooks/useForm'
 
 export const Login = () => {
 
     const dispatch = useDispatch()
 
-    const {loggued} = useSelector( state => state.auth)
+    const { loggued } = useSelector(state => state.auth)
 
     const classes = useStyles();
 
@@ -26,9 +25,9 @@ export const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault()
-        dispatch(startLoginEmailPassword(email, contraseña))      
+        dispatch(startLoginEmailPassword(email, contraseña))
 
-        
+
         if (email === '' && contraseña === '') {
             return;
         } else {
@@ -39,12 +38,15 @@ export const Login = () => {
 
 
     return (
-        <div style={{paddingLeft: 'auto', paddingRight: 'auto'}}>
-            <Card className={classes.margin} variant="outlined" >
+        <>
+            <Card className={classes.cardLogin} variant="outlined" >
+                <Typography variant='h6' className={classes.botText}>
+                    IClounic - Ingresa
+                </Typography>
 
                 <form onSubmit={handleLogin}>
                     <CardContent>
-                        <FormControl className={classes.margin} onChange={handleInputChange} required >
+                        <FormControl className={classes.loginInput} onChange={handleInputChange} required >
                             <InputLabel>Correo</InputLabel>
                             <Input
                                 startAdornment={
@@ -61,7 +63,9 @@ export const Login = () => {
                             />
                         </FormControl>
 
-                        <FormControl className={classes.margin} onChange={handleInputChange} required >
+                        <br />
+
+                        <FormControl className={classes.loginInput} onChange={handleInputChange} required >
                             <InputLabel>Contraseña</InputLabel>
                             <Input
                                 startAdornment={
@@ -69,7 +73,7 @@ export const Login = () => {
                                         <VisibilityOff />
                                     </InputAdornment>
                                 }
-                                type="text"
+                                type="password"
                                 name="contraseña"
                                 value={contraseña}
                                 required={true}
@@ -79,11 +83,21 @@ export const Login = () => {
                         </FormControl>
                     </CardContent>
                     <CardActions>
-                        <Button size='meddium' type="submit" onClick={handleLogin}>Log In</Button>
-                        {!loggued ? null :  <Redirect to="/main" />}
+                        <Button className={classes.button}
+                            variant="contained"
+                            color="primary"
+                            type="submit"
+                            onClick={handleLogin}>
+                            Ingresar
+                        </Button>
+                        {!loggued ? null : <Redirect to="/main" />}
                     </CardActions>
                 </form>
+                <Typography variant='subtitle1' className={classes.botText}>
+                    ¿No tienes cuenta?
+                    <Link to="/registro-doc/"> Registrate </Link>
+                </Typography>
             </Card>
-        </div>
+        </>
     )
 }

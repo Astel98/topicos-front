@@ -7,6 +7,32 @@ const drawerWidth = 240;
 export const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
+        backgroundImage: `url(${'/fondo.jpg'})`,
+        backgroundSize: 'cover',
+    },
+    divLogin: {
+        margin: 'auto',
+        padding: '100px',
+    },
+    cardLogin: {
+        boxShadow: '5px 5px #888888',
+        padding: '20px',
+        borderRadius: '15px',
+        borderWidth: '1px',
+        borderColor: 'black'
+    },
+    loginInput: {
+        padding: '5px 5px 55px 5px',
+        margin: '5px',  
+    },
+    button: {
+        paddingLeft: '100px',
+        paddingRight: '100px',
+    },
+    botText: {
+        padding: '10px',
+        textAlign: 'center',
+        color: '#888888',
     },
     margin: {
         paddingTop: '100px',

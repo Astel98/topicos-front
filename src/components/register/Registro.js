@@ -75,7 +75,7 @@ export const Registro = () => {
 
 
 
-            <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
+            <form className={classes.divLogin} noValidate autoComplete="off" onSubmit={handleSubmit}>
 
                 <Grid container spacing={1} alignContent="center" alignItems="center">
                     <Grid container xs={"auto"} item spacing={1}>

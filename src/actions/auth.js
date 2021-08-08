@@ -1,3 +1,4 @@
+import { alertaError } from '../common/alertas'
 import { fetchSinToken } from '../common/fetcher'
 import { types } from '../types/types'
 
@@ -14,11 +15,15 @@ export const startLoginEmailPassword = (email, contraseña) => {
                     resp.json().then(
                         (data) => {
                             console.log(data)
+                            localStorage.setItem('access-token', data.access);
+                            localStorage.setItem('refresh-token', data.refresh);
+                            localStorage.setItem('is-auth', true);
                             dispatch(login(data.refresh, data.access, true))
                         }
                     )
                 }else{
-                    alert("Error al iniciar sesion, revise las credenciales")
+                    // alert("Error al iniciar sesion, revise las credenciales")
+                    alertaError("Credenciales incorrectas");
                 }
             }
         )
