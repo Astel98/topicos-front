@@ -31,6 +31,14 @@ export const startLoginEmailPassword = (email, contraseña) => {
     }
 }
 
+export const doLogout = () => {
+    return (dispatch) => {
+        console.log('logour');
+        localStorage.clear();
+        dispatch(logout());
+    }
+}
+
 
 export const login = (uid, displayName, loggued) => ({
     type: types.login,
@@ -39,4 +47,8 @@ export const login = (uid, displayName, loggued) => ({
         displayName,
         loggued
     }
+})
+
+export const logout = () => ({
+    type: types.logout
 })

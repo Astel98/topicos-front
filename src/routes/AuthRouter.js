@@ -3,7 +3,7 @@ import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { useStyles } from '../common/estilos';
 import { Login } from '../components/auth/Login';
-import { Main } from '../components/Main';
+import { RegistroDoctor } from '../components/register/RegistroDoctor';
 
 
 export const AuthRouter = () => {
@@ -22,7 +22,7 @@ export const AuthRouter = () => {
                 <Route
                     exact
                     path="/auth/register"
-                    component={Login}
+                    component={RegistroDoctor}
                 />
 
                 <Redirect to="/auth/login" />

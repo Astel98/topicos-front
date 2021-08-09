@@ -15,6 +15,8 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { useStyles } from '../common/estilos';
 import { Button, SwipeableDrawer } from '@material-ui/core';
 import { Link } from "react-router-dom"
+import { doLogout } from '../actions/auth';
+import { useDispatch } from 'react-redux';
 
 
 
@@ -25,6 +27,8 @@ export const AppBarPer = () => {
 
     const auth = localStorage.getItem('is-auth');
 
+    const dispatch = useDispatch()
+
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [state, setState] = React.useState({
@@ -33,6 +37,10 @@ export const AppBarPer = () => {
         bottom: false,
         right: false,
     });
+
+    const handleLogout = () => {
+        dispatch(doLogout());
+    }
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -99,11 +107,11 @@ export const AppBarPer = () => {
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                         IClounic - Tu clinica en linea
                     </Typography>
-                    {/* <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary">
+                    {auth ? <IconButton color="inherit" onClick={handleLogout}>
+                        <Badge color="secondary">
                             <NotificationsIcon />
                         </Badge>
-                    </IconButton> */}
+                    </IconButton> : null}
                 </Toolbar>
             </AppBar>
 

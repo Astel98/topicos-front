@@ -93,8 +93,6 @@ export const RegistroDoctor = () => {
 
             if (resp.ok && respDoc.ok) {
                 alertaSuccess('Usuario creado exitosamente')
-                console.log(JSON.stringify(resp));
-                console.log(JSON.stringify(respDoc));
             } else {
                 alertaError('Error durante la creacion de usuario');
             }
@@ -109,7 +107,14 @@ export const RegistroDoctor = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Contraseñas no coinciden");
+
+        for(let key in values){
+            if(values[key].toString().length <= 0){
+                alertaError(`${key} no debe estar vacio`);
+                return;
+            }
+        }
+
         if (contraseña === confirmar) {
             registrar();
         } else {
@@ -448,12 +453,7 @@ export const RegistroDoctor = () => {
                         </div>
                     </Grid>
                 </Grid>
-
             </form>
-
-
-
-
         </Container>
     )
 }

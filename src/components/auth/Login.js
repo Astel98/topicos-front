@@ -95,7 +95,7 @@ export const Login = () => {
                 </form>
                 <Typography variant='subtitle1' className={classes.botText}>
                     ¿No tienes cuenta?
-                    <Link to="/registro-doc/"> Registrate </Link>
+                    <Link to="/auth/register"> Registrate </Link>
                 </Typography>
             </Card>
         </>

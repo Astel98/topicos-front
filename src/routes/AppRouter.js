@@ -49,7 +49,7 @@ export const AppRouter = () => {
                 <AppBarPer />
                 <Switch>
                     <PublicRoute
-                        path="/auth/login"
+                        path="/auth"
                         component={AuthRouter}
                         isAuthenticated={isLoggedIn}
                     />
