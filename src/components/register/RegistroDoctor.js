@@ -1,13 +1,31 @@
-import { Button, Container, FormControl, Grid, Input, InputAdornment, Select, InputLabel, MenuItem, TextField } from '@material-ui/core';
-import React from 'react'
+import {
+    Button,
+    Container,
+    FormControl,
+    Grid,
+    Input,
+    InputAdornment,
+    Select,
+    InputLabel,
+    MenuItem,
+    TextField
+} from '@material-ui/core';
+import React, { useState } from 'react'
 
 import { useStyles } from '../../common/estilos'
 import { useForm, useFormDoc } from '../../hooks/useForm';
 import Paper from '@material-ui/core/Paper';
-import { AccountCircle, Event, VisibilityOff, AlternateEmail, AddIcCall, Home, LocalHospital } from '@material-ui/icons';
+import {
+    AccountCircle,
+    Event,
+    VisibilityOff,
+    AlternateEmail,
+    AddIcCall,
+    Home,
+    LocalHospital
+} from '@material-ui/icons';
 import { fetchSinToken, fetchSinTokenDoc } from '../../common/fetcher';
 import { alertaError, alertaSuccess } from '../../common/alertas';
-
 
 
 export const RegistroDoctor = () => {
@@ -43,8 +61,23 @@ export const RegistroDoctor = () => {
 
     const { pathFoto, pathCI, pathTitulo } = docs;
 
-    const { nombre, apellido, correo, contraseña, confirmar, laboral, especialidad,
-        telefono, ci, direccion, fecha_nac, codigo, genero } = values;
+    const {
+        nombre, apellido, correo, contraseña, confirmar, laboral, especialidad,
+        telefono, ci, direccion, fecha_nac, codigo, genero
+    } = values;
+
+    const [nombreError, setNombreError] = useState(false);
+    const [nombreErrorMensaje, setNombreErrorMensaje] = useState("");
+    const [apellidoError, setApellidoError] = useState(false);
+    const [apellidoErrorMensaje, setApellidoErrorMensaje] = useState("");
+    const [telefonoError, setTelefonoError] = useState(false);
+    const [telefonoErrorMensaje, setTelefonoErrorMensaje] = useState("");
+    const [ciError, setCiError] = useState(false);
+    const [ciErrorMensaje, setCiErrorMensaje] = useState("");
+    const [direccionError, setDireccionError] = useState(false);
+    const [direccionErrorMensaje, setDireccionErrorMensaje] = useState("");
+    const [direccionLaboralError, setDireccionLaboralError] = useState(false);
+    const [direccionLaboralErrorMensaje, setDireccionLaboralErrorMensaje] = useState("");
 
     const registrar = async () => {
         const userData = {
@@ -102,14 +135,13 @@ export const RegistroDoctor = () => {
         }
 
 
-
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        for(let key in values){
-            if(values[key].toString().length <= 0){
+        for (let key in values) {
+            if (values[key].toString().length <= 0) {
                 alertaError(`${key} no debe estar vacio`);
                 return;
             }
@@ -122,10 +154,121 @@ export const RegistroDoctor = () => {
         }
     }
 
+    const handleNombreBlur = () => {
+        if (nombre.length === 0) {
+            setNombreError(true)
+            setNombreErrorMensaje("Este campo es requerido.")
+        }
+    }
+
+    const handleNombreChange = (event) => {
+        if (event.target.value.length > 0) {
+            setNombreError(false);
+            setNombreErrorMensaje("");
+        } else {
+            setNombreError(true)
+            setNombreErrorMensaje("Este campo es requerido.")
+        }
+    }
+
+    const handleApellidoBlur = () => {
+        if (apellido.length === 0) {
+            setApellidoError(true)
+            setApellidoErrorMensaje("Este campo es requerido.")
+        }
+    }
+
+    const handleApellidoChange = (event) => {
+        if (event.target.value.length > 0) {
+            setApellidoError(false);
+            setApellidoErrorMensaje("");
+        } else {
+            setApellidoError(true)
+            setApellidoErrorMensaje("Este campo es requerido.")
+        }
+    }
+
+    const handleTelefonoBlur = () => {
+        if (telefono.length === 0) {
+            setTelefonoError(true)
+            setTelefonoErrorMensaje("Este campo es requerido.")
+        }
+    }
+
+    const handleTelefonoChange = (event) => {
+        if (event.target.value.length > 0) {
+            if (isNaN(event.target.value)) {
+                setTelefonoError(true);
+                setTelefonoErrorMensaje("Solo se admiten valores numéricos.")
+            } else {
+                setTelefonoError(false);
+                setTelefonoErrorMensaje("");
+            }
+        } else {
+            setTelefonoError(true)
+            setTelefonoErrorMensaje("Este campo es requerido.")
+        }
+    }
+
+    const handleCiBlur = () => {
+        if (telefono.length === 0) {
+            setCiError(true)
+            setCiErrorMensaje("Este campo es requerido.")
+        }
+    }
+
+    const handleCiChange = (event) => {
+        if (event.target.value.length > 0) {
+            if (isNaN(event.target.value)) {
+                setCiError(true);
+                setCiErrorMensaje("Solo se admiten valores numéricos.")
+            } else {
+                setCiError(false);
+                setCiErrorMensaje("");
+            }
+        } else {
+            setCiError(true)
+            setCiErrorMensaje("Este campo es requerido.")
+        }
+    }
+
+    const handleDireccionBlur = () => {
+        if (direccion.length === 0) {
+            setDireccionError(true)
+            setDireccionErrorMensaje("Este campo es requerido.")
+        }
+    }
+
+    const handleDireccionChange = (event) => {
+        if (event.target.value.length > 0) {
+            setDireccionError(false);
+            setDireccionErrorMensaje("");
+        } else {
+            setDireccionError(true)
+            setDireccionErrorMensaje("Este campo es requerido.")
+        }
+    }
+
+    const handleDireccionLaboralBlur = () => {
+        if (direccion.length === 0) {
+            setDireccionLaboralError(true)
+            setDireccionLaboralErrorMensaje("Este campo es requerido.")
+        }
+    }
+
+    const handleDireccionLaboralChange = (event) => {
+        if (event.target.value.length > 0) {
+            setDireccionLaboralError(false);
+            setDireccionLaboralErrorMensaje("");
+        } else {
+            setDireccionLaboralError(true)
+            setDireccionLaboralErrorMensaje("Este campo es requerido.")
+        }
+    }
 
     return (
 
-        <Container className={classes.divLogin}  maxWidth="md" component={Paper} >
+        <Container className={classes.divLogin} maxWidth="md" component={Paper}>
 
             <h2>Formulario Registro</h2>
 
@@ -137,111 +280,165 @@ export const RegistroDoctor = () => {
                         <Grid container item xs={4} spacing={1}>
 
                             <div className="row" style={{ padding: "1rem" }}>
-                                <FormControl className={classes.margin} onChange={handleInputChange} required>
-                                    <InputLabel htmlFor="input-with-icon-adornment">Nombre(s)</InputLabel>
-                                    <Input
-                                        id="input-with-icon-adornment"
-                                        startAdornment={
-                                            <InputAdornment position="start">
-                                                <AccountCircle />
-                                            </InputAdornment>
-                                        }
-                                        type="text"
-                                        name="nombre"
-                                        value={nombre}
-                                        error={nombre.length>0 ? false : true }
-                                    />
-                                </FormControl>
+                                {/*<FormControl className={classes.margin} onChange={handleInputChange} required>*/}
+                                {/*    <InputLabel htmlFor="input-with-icon-adornment">Nombre(s)</InputLabel>*/}
+                                {/*    <Input*/}
+                                {/*        id="input-with-icon-adornment"*/}
+                                {/*        startAdornment={*/}
+                                {/*            <InputAdornment position="start">*/}
+                                {/*                <AccountCircle />*/}
+                                {/*            </InputAdornment>*/}
+                                {/*        }*/}
+                                {/*        type="text"*/}
+                                {/*        name="nombre"*/}
+                                {/*        value={nombre}*/}
+                                {/*        error={nombre.length>0 ? false : true }*/}
+                                {/*    />*/}
+                                {/*</FormControl>*/}
+                                <TextField
+                                    id="outlined-basic"
+                                    error={nombreError}
+                                    helperText={nombreErrorMensaje}
+                                    label="Nombre(s)*"
+                                    variant="outlined"
+                                    onChange={handleNombreChange}
+                                    onBlur={handleNombreBlur}
+                                />
                             </div>
 
                             <div className="row" style={{ padding: "1rem" }}>
-                                <FormControl className={classes.margin} onChange={handleInputChange} required>
-                                    <InputLabel htmlFor="input-with-icon-adornment">Apellido(s)</InputLabel>
-                                    <Input
-                                        id="input-with-icon-adornment"
-                                        startAdornment={
-                                            <InputAdornment position="start">
-                                                <AccountCircle />
-                                            </InputAdornment>
-                                        }
-                                        type="text"
-                                        name="apellido"
-                                        value={apellido}
-                                        error={apellido.length>0 ? false : true }
-                                    />
-                                </FormControl>
+                                {/*<FormControl className={classes.margin} onChange={handleInputChange} required>*/}
+                                {/*    <InputLabel htmlFor="input-with-icon-adornment">Apellido(s)</InputLabel>*/}
+                                {/*    <Input*/}
+                                {/*        id="input-with-icon-adornment"*/}
+                                {/*        startAdornment={*/}
+                                {/*            <InputAdornment position="start">*/}
+                                {/*                <AccountCircle/>*/}
+                                {/*            </InputAdornment>*/}
+                                {/*        }*/}
+                                {/*        type="text"*/}
+                                {/*        name="apellido"*/}
+                                {/*        value={apellido}*/}
+                                {/*        error={apellido.length > 0 ? false : true}*/}
+                                {/*    />*/}
+                                {/*</FormControl>*/}
+                                <TextField
+                                    id="outlined-basic"
+                                    error={apellidoError}
+                                    helperText={apellidoErrorMensaje}
+                                    label="Apellido(s)*"
+                                    variant="outlined"
+                                    onChange={handleApellidoChange}
+                                    onBlur={handleApellidoBlur}
+                                />
                             </div>
 
                             <div className="row" style={{ padding: "1rem" }}>
-                                <FormControl className={classes.margin} onChange={handleInputChange} required>
-                                    <InputLabel htmlFor="input-with-icon-adornment">Nro. Celular</InputLabel>
-                                    <Input
-                                        id="input-with-icon-adornment"
-                                        startAdornment={
-                                            <InputAdornment position="start">
-                                                <AddIcCall />
-                                            </InputAdornment>
-                                        }
-                                        type="number"
-                                        name="telefono"
-                                        value={telefono}
-                                        error={telefono.length>0 ? false : true }
-                                    />
-                                </FormControl>
+                                {/*<FormControl className={classes.margin} onChange={handleInputChange} required>*/}
+                                {/*    <InputLabel htmlFor="input-with-icon-adornment">Nro. Celular</InputLabel>*/}
+                                {/*    <Input*/}
+                                {/*        id="input-with-icon-adornment"*/}
+                                {/*        startAdornment={*/}
+                                {/*            <InputAdornment position="start">*/}
+                                {/*                <AddIcCall/>*/}
+                                {/*            </InputAdornment>*/}
+                                {/*        }*/}
+                                {/*        type="number"*/}
+                                {/*        name="telefono"*/}
+                                {/*        value={telefono}*/}
+                                {/*        error={telefono.length > 0 ? false : true}*/}
+                                {/*    />*/}
+                                {/*</FormControl>*/}
+                                <TextField
+                                    id="outlined-basic"
+                                    error={telefonoError}
+                                    helperText={telefonoErrorMensaje}
+                                    label="Teléfono*"
+                                    variant="outlined"
+                                    onChange={handleTelefonoChange}
+                                    onBlur={handleTelefonoBlur}
+                                />
                             </div>
 
                             <div className="row" style={{ padding: "1rem" }}>
-                                <FormControl className={classes.margin} onChange={handleInputChange} required>
-                                    <InputLabel htmlFor="input-with-icon-adornment">Nro. CI</InputLabel>
-                                    <Input
-                                        id="input-with-icon-adornment"
-                                        startAdornment={
-                                            <InputAdornment position="start">
-                                                <AccountCircle />
-                                            </InputAdornment>
-                                        }
-                                        type="text"
-                                        name="ci"
-                                        value={ci}
-                                        error={ci.length>0 ? false : true }
-                                    />
-                                </FormControl>
+                                {/*<FormControl className={classes.margin} onChange={handleInputChange} required>*/}
+                                {/*    <InputLabel htmlFor="input-with-icon-adornment">Nro. CI</InputLabel>*/}
+                                {/*    <Input*/}
+                                {/*        id="input-with-icon-adornment"*/}
+                                {/*        startAdornment={*/}
+                                {/*            <InputAdornment position="start">*/}
+                                {/*                <AccountCircle/>*/}
+                                {/*            </InputAdornment>*/}
+                                {/*        }*/}
+                                {/*        type="text"*/}
+                                {/*        name="ci"*/}
+                                {/*        value={ci}*/}
+                                {/*        error={ci.length > 0 ? false : true}*/}
+                                {/*    />*/}
+                                {/*</FormControl>*/}
+                                <TextField
+                                    id="outlined-basic"
+                                    error={ciError}
+                                    helperText={ciErrorMensaje}
+                                    label="Nro. CI*"
+                                    variant="outlined"
+                                    onChange={handleCiChange}
+                                    onBlur={handleCiBlur}
+                                />
                             </div>
 
                             <div className="row" style={{ padding: "1rem" }}>
-                                <FormControl className={classes.margin} onChange={handleInputChange} required>
-                                    <InputLabel htmlFor="input-with-icon-adornment">Direccion</InputLabel>
-                                    <Input
-                                        id="input-with-icon-adornment"
-                                        startAdornment={
-                                            <InputAdornment position="start">
-                                                <Home />
-                                            </InputAdornment>
-                                        }
-                                        type="text"
-                                        name="direccion"
-                                        value={direccion}
-                                        error={direccion.length>0 ? false : true }
-                                    />
-                                </FormControl>
+                                {/*<FormControl className={classes.margin} onChange={handleInputChange} required>*/}
+                                {/*    <InputLabel htmlFor="input-with-icon-adornment">Direccion</InputLabel>*/}
+                                {/*    <Input*/}
+                                {/*        id="input-with-icon-adornment"*/}
+                                {/*        startAdornment={*/}
+                                {/*            <InputAdornment position="start">*/}
+                                {/*                <Home/>*/}
+                                {/*            </InputAdornment>*/}
+                                {/*        }*/}
+                                {/*        type="text"*/}
+                                {/*        name="direccion"*/}
+                                {/*        value={direccion}*/}
+                                {/*        error={direccion.length > 0 ? false : true}*/}
+                                {/*    />*/}
+                                {/*</FormControl>*/}
+                                <TextField
+                                    id="outlined-basic"
+                                    error={direccionError}
+                                    helperText={direccionErrorMensaje}
+                                    label="Dirección*"
+                                    variant="outlined"
+                                    onChange={handleDireccionChange}
+                                    onBlur={handleDireccionBlur}
+                                />
                             </div>
 
                             <div className="row" style={{ padding: "1rem" }}>
-                                <FormControl className={classes.margin} onChange={handleInputChange} required>
-                                    <InputLabel htmlFor="input-with-icon-adornment">Direccion Laboral</InputLabel>
-                                    <Input
-                                        id="input-with-icon-adornment"
-                                        startAdornment={
-                                            <InputAdornment position="start">
-                                                <Home />
-                                            </InputAdornment>
-                                        }
-                                        type="text"
-                                        name="laboral"
-                                        value={laboral}
-                                        error={laboral.length>0 ? false : true }
-                                    />
-                                </FormControl>
+                                {/*<FormControl className={classes.margin} onChange={handleInputChange} required>*/}
+                                {/*    <InputLabel htmlFor="input-with-icon-adornment">Direccion Laboral</InputLabel>*/}
+                                {/*    <Input*/}
+                                {/*        id="input-with-icon-adornment"*/}
+                                {/*        startAdornment={*/}
+                                {/*            <InputAdornment position="start">*/}
+                                {/*                <Home/>*/}
+                                {/*            </InputAdornment>*/}
+                                {/*        }*/}
+                                {/*        type="text"*/}
+                                {/*        name="laboral"*/}
+                                {/*        value={laboral}*/}
+                                {/*        error={laboral.length > 0 ? false : true}*/}
+                                {/*    />*/}
+                                {/*</FormControl>*/}
+                                <TextField
+                                    id="outlined-basic"
+                                    error={direccionLaboralError}
+                                    helperText={direccionLaboralErrorMensaje}
+                                    label="Dirección laboral*"
+                                    variant="outlined"
+                                    onChange={handleDireccionLaboralChange}
+                                    onBlur={handleDireccionLaboralBlur}
+                                />
                             </div>
 
                             <div className="row" style={{ padding: "1rem" }}>
@@ -251,13 +448,13 @@ export const RegistroDoctor = () => {
                                         id="input-with-icon-adornment"
                                         startAdornment={
                                             <InputAdornment position="start">
-                                                <Event />
+                                                <Event/>
                                             </InputAdornment>
                                         }
                                         type="date"
                                         name="fecha_nac"
                                         value={fecha_nac}
-                                        error={fecha_nac.length>0 ? false : true }
+                                        error={fecha_nac.length > 0 ? false : true}
                                     />
                                 </FormControl>
                             </div>
@@ -283,75 +480,111 @@ export const RegistroDoctor = () => {
 
                         <Grid container item xs={4} spacing={1}>
                             <div className="row" style={{ padding: "1rem" }}>
-                                <FormControl className={classes.margin} onChange={handleInputChange} required>
-                                    <InputLabel htmlFor="input-with-icon-adornment">Correo</InputLabel>
-                                    <Input
-                                        id="input-with-icon-adornment"
-                                        startAdornment={
-                                            <InputAdornment position="start">
-                                                <AlternateEmail />
-                                            </InputAdornment>
-                                        }
-                                        type="email"
-                                        name="correo"
-                                        value={correo}
-                                        error={correo.length>0 ? false : true }
-                                    />
-                                </FormControl>
+                                {/*<FormControl className={classes.margin} onChange={handleInputChange} required>*/}
+                                {/*    <InputLabel htmlFor="input-with-icon-adornment">Correo</InputLabel>*/}
+                                {/*    <Input*/}
+                                {/*        id="input-with-icon-adornment"*/}
+                                {/*        startAdornment={*/}
+                                {/*            <InputAdornment position="start">*/}
+                                {/*                <AlternateEmail/>*/}
+                                {/*            </InputAdornment>*/}
+                                {/*        }*/}
+                                {/*        type="email"*/}
+                                {/*        name="correo"*/}
+                                {/*        value={correo}*/}
+                                {/*        error={correo.length > 0 ? false : true}*/}
+                                {/*    />*/}
+                                {/*</FormControl>*/}
+                                <TextField
+                                    id="outlined-basic"
+                                    error={nombreError}
+                                    helperText={nombreErrorMensaje}
+                                    label="Correo electrónico*"
+                                    variant="outlined"
+                                    onChange={handleNombreChange}
+                                    onBlur={handleNombreBlur}
+                                />
                             </div>
 
                             <div className="row" style={{ padding: "1rem" }}>
-                                <FormControl className={classes.margin} onChange={handleInputChange} required>
-                                    <InputLabel htmlFor="input-with-icon-adornment">Contraseña</InputLabel>
-                                    <Input
-                                        id="input-with-icon-adornment"
-                                        startAdornment={
-                                            <InputAdornment position="start">
-                                                <VisibilityOff />
-                                            </InputAdornment>
-                                        }
-                                        type="password"
-                                        name="contraseña"
-                                        value={contraseña}
-                                        error={contraseña.length>0 ? false : true }
-                                    />
-                                </FormControl>
+                                {/*<FormControl className={classes.margin} onChange={handleInputChange} required>*/}
+                                {/*    <InputLabel htmlFor="input-with-icon-adornment">Contraseña</InputLabel>*/}
+                                {/*    <Input*/}
+                                {/*        id="input-with-icon-adornment"*/}
+                                {/*        startAdornment={*/}
+                                {/*            <InputAdornment position="start">*/}
+                                {/*                <VisibilityOff/>*/}
+                                {/*            </InputAdornment>*/}
+                                {/*        }*/}
+                                {/*        type="password"*/}
+                                {/*        name="contraseña"*/}
+                                {/*        value={contraseña}*/}
+                                {/*        error={contraseña.length > 0 ? false : true}*/}
+                                {/*    />*/}
+                                {/*</FormControl>*/}
+                                <TextField
+                                    id="outlined-basic"
+                                    error={nombreError}
+                                    helperText={nombreErrorMensaje}
+                                    label="Contraseña*"
+                                    variant="outlined"
+                                    onChange={handleNombreChange}
+                                    onBlur={handleNombreBlur}
+                                />
                             </div>
 
                             <div className="row" style={{ padding: "1rem" }}>
-                                <FormControl className={classes.margin} onChange={handleInputChange} required>
-                                    <InputLabel htmlFor="input-with-icon-adornment">Confirmar</InputLabel>
-                                    <Input
-                                        id="input-with-icon-adornment"
-                                        startAdornment={
-                                            <InputAdornment position="start">
-                                                <VisibilityOff />
-                                            </InputAdornment>
-                                        }
-                                        type="password"
-                                        name="confirmar"
-                                        value={confirmar}
-                                        error={confirmar.length>0 ? false : true }
-                                    />
-                                </FormControl>
+                                {/*<FormControl className={classes.margin} onChange={handleInputChange} required>*/}
+                                {/*    <InputLabel htmlFor="input-with-icon-adornment">Confirmar</InputLabel>*/}
+                                {/*    <Input*/}
+                                {/*        id="input-with-icon-adornment"*/}
+                                {/*        startAdornment={*/}
+                                {/*            <InputAdornment position="start">*/}
+                                {/*                <VisibilityOff/>*/}
+                                {/*            </InputAdornment>*/}
+                                {/*        }*/}
+                                {/*        type="password"*/}
+                                {/*        name="confirmar"*/}
+                                {/*        value={confirmar}*/}
+                                {/*        error={confirmar.length > 0 ? false : true}*/}
+                                {/*    />*/}
+                                {/*</FormControl>*/}
+                                <TextField
+                                    id="outlined-basic"
+                                    error={nombreError}
+                                    helperText={nombreErrorMensaje}
+                                    label="Confirmar contraseña*"
+                                    variant="outlined"
+                                    onChange={handleNombreChange}
+                                    onBlur={handleNombreBlur}
+                                />
                             </div>
 
                             <div className="row" style={{ padding: "1rem" }}>
-                                <FormControl className={classes.margin} onChange={handleInputChange} required>
-                                    <InputLabel htmlFor="input-with-icon-adornment">Codigo Doctor</InputLabel>
-                                    <Input
-                                        id="input-with-icon-adornment"
-                                        startAdornment={
-                                            <InputAdornment position="start">
-                                                <LocalHospital />
-                                            </InputAdornment>
-                                        }
-                                        type="text"
-                                        name="codigo"
-                                        value={codigo}
-                                        error={codigo.length>0 ? false : true }
-                                    />
-                                </FormControl>
+                                {/*<FormControl className={classes.margin} onChange={handleInputChange} required>*/}
+                                {/*    <InputLabel htmlFor="input-with-icon-adornment">Codigo Doctor</InputLabel>*/}
+                                {/*    <Input*/}
+                                {/*        id="input-with-icon-adornment"*/}
+                                {/*        startAdornment={*/}
+                                {/*            <InputAdornment position="start">*/}
+                                {/*                <LocalHospital/>*/}
+                                {/*            </InputAdornment>*/}
+                                {/*        }*/}
+                                {/*        type="text"*/}
+                                {/*        name="codigo"*/}
+                                {/*        value={codigo}*/}
+                                {/*        error={codigo.length > 0 ? false : true}*/}
+                                {/*    />*/}
+                                {/*</FormControl>*/}
+                                <TextField
+                                    id="outlined-basic"
+                                    error={nombreError}
+                                    helperText={nombreErrorMensaje}
+                                    label="Código doctor*"
+                                    variant="outlined"
+                                    onChange={handleNombreChange}
+                                    onBlur={handleNombreBlur}
+                                />
                             </div>
 
                             <div className="row" style={{ padding: "1rem" }}>
@@ -378,7 +611,7 @@ export const RegistroDoctor = () => {
 
                             <div className="row" style={{ padding: "1rem" }}>
                                 <Button
-                                    style={{width: "250px"}}
+                                    style={{ width: "250px" }}
                                     variant="contained"
                                     component="label"
                                     color="primary"
@@ -400,7 +633,7 @@ export const RegistroDoctor = () => {
 
                             <div className="row" style={{ padding: "1rem" }}>
                                 <Button
-                                    style={{width: "250px"}}
+                                    style={{ width: "250px" }}
                                     variant="contained"
                                     component="label"
                                     color="primary"
@@ -421,7 +654,7 @@ export const RegistroDoctor = () => {
 
                             <div className="row" style={{ padding: "1rem" }}>
                                 <Button
-                                    style={{width: "250px"}}
+                                    style={{ width: "250px" }}
                                     variant="contained"
                                     component="label"
                                     color="primary"
