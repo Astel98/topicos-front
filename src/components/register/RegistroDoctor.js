@@ -8,13 +8,13 @@ import {
     Select,
     InputLabel,
     MenuItem,
-    TextField
+    TextField, StepLabel, Step, Stepper
 } from '@material-ui/core';
 import React, { useState } from 'react'
 
-import { useStyles } from '../../common/estilos'
 import { useForm, useFormDoc } from '../../hooks/useForm';
 import Paper from '@material-ui/core/Paper';
+import DateFnsUtils from '@date-io/date-fns';
 import {
     AccountCircle,
     Event,
@@ -26,7 +26,18 @@ import {
 } from '@material-ui/icons';
 import { fetchSinToken, fetchSinTokenDoc } from '../../common/fetcher';
 import { alertaError, alertaSuccess } from '../../common/alertas';
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { makeStyles } from "@material-ui/core/styles";
 
+const useStyles = makeStyles((theme) => ({
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+    },
+    selectEmpty: {
+        marginTop: theme.spacing(2),
+    },
+}));
 
 export const RegistroDoctor = () => {
 
@@ -62,22 +73,53 @@ export const RegistroDoctor = () => {
     const { pathFoto, pathCI, pathTitulo } = docs;
 
     const {
-        nombre, apellido, correo, contraseña, confirmar, laboral, especialidad,
-        telefono, ci, direccion, fecha_nac, codigo, genero
+        correo, contraseña, confirmar, laboral, especialidad,
+        fecha_nac, codigo
     } = values;
 
+    const [nombre, setNombre] = useState("");
     const [nombreError, setNombreError] = useState(false);
     const [nombreErrorMensaje, setNombreErrorMensaje] = useState("");
+
+    const [apellido, setApellido] = useState("");
     const [apellidoError, setApellidoError] = useState(false);
     const [apellidoErrorMensaje, setApellidoErrorMensaje] = useState("");
+
+    const [telefono, setTelefono] = useState("");
     const [telefonoError, setTelefonoError] = useState(false);
     const [telefonoErrorMensaje, setTelefonoErrorMensaje] = useState("");
+
+    const [ci, setCi] = useState("");
     const [ciError, setCiError] = useState(false);
     const [ciErrorMensaje, setCiErrorMensaje] = useState("");
+
+    const [direccion, setDireccion] = useState("");
     const [direccionError, setDireccionError] = useState(false);
     const [direccionErrorMensaje, setDireccionErrorMensaje] = useState("");
+
+    const [direccionLaboral, setDireccionLaboral] = useState("");
     const [direccionLaboralError, setDireccionLaboralError] = useState(false);
     const [direccionLaboralErrorMensaje, setDireccionLaboralErrorMensaje] = useState("");
+
+    const [fechaDeNacimiento, setFechaDeNacimiento] = useState(new Date());
+
+    const [genero, setGenero] = useState("");
+
+    const [correoElectronico, setCorreoElectronico] = useState("");
+    const [correoElectronicoError, setCorreoElectronicoError] = useState(false);
+    const [correoElectronicoErrorMensaje, setCorreoElectronicoErrorMensaje] = useState("");
+
+    const [contrasena, setContrasena] = useState("");
+    const [contrasenaError, setContrasenaError] = useState(false);
+    const [contrasenaErrorMensaje, setContrasenaErrorMensaje] = useState("");
+
+    const [contrasenaConfirmada, setContrasenaConfirmada] = useState("");
+    const [contrasenaConfirmadaError, setContrasenaConfirmadaError] = useState(false);
+    const [contrasenaConfirmadaErrorMensaje, setContrasenaConfirmadaErrorMensaje] = useState("");
+
+    const [codigoDoctor, setCodigoDoctor] = useState("");
+    const [codigoDoctorError, setCodigoDoctorError] = useState(false);
+    const [codigoDoctorErrorMensaje, setCodigoDoctorErrorMensaje] = useState("");
 
     const registrar = async () => {
         const userData = {
@@ -162,6 +204,7 @@ export const RegistroDoctor = () => {
     }
 
     const handleNombreChange = (event) => {
+        setNombre(event.target.value);
         if (event.target.value.length > 0) {
             setNombreError(false);
             setNombreErrorMensaje("");
@@ -179,6 +222,7 @@ export const RegistroDoctor = () => {
     }
 
     const handleApellidoChange = (event) => {
+        setApellido(event.target.value);
         if (event.target.value.length > 0) {
             setApellidoError(false);
             setApellidoErrorMensaje("");
@@ -196,6 +240,7 @@ export const RegistroDoctor = () => {
     }
 
     const handleTelefonoChange = (event) => {
+        setTelefono(event.target.value);
         if (event.target.value.length > 0) {
             if (isNaN(event.target.value)) {
                 setTelefonoError(true);
@@ -218,6 +263,7 @@ export const RegistroDoctor = () => {
     }
 
     const handleCiChange = (event) => {
+        setCi(event.target.value);
         if (event.target.value.length > 0) {
             if (isNaN(event.target.value)) {
                 setCiError(true);
@@ -240,6 +286,7 @@ export const RegistroDoctor = () => {
     }
 
     const handleDireccionChange = (event) => {
+        setDireccion(event.target.value);
         if (event.target.value.length > 0) {
             setDireccionError(false);
             setDireccionErrorMensaje("");
@@ -257,12 +304,94 @@ export const RegistroDoctor = () => {
     }
 
     const handleDireccionLaboralChange = (event) => {
+        setDireccionLaboral(event.target.value);
         if (event.target.value.length > 0) {
             setDireccionLaboralError(false);
             setDireccionLaboralErrorMensaje("");
         } else {
             setDireccionLaboralError(true)
             setDireccionLaboralErrorMensaje("Este campo es requerido.")
+        }
+    }
+
+    const handleGeneroChange = (event) => {
+        setGenero(event.target.value);
+        console.log(event.target.value);
+    }
+
+    const handleCorreoElectronicoBlur = () => {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (correoElectronico.length === 0) {
+            setCorreoElectronicoError(true)
+            setCorreoElectronicoErrorMensaje("Este campo es requerido.")
+        } else if (!re.test(String(correoElectronico).toLowerCase())) {
+            setCorreoElectronicoError(true)
+            setCorreoElectronicoErrorMensaje("Ingrese un correo válido.")
+        }
+    }
+
+    const handleCorreoElectronicoChange = (event) => {
+        setCorreoElectronico(event.target.value)
+        if (event.target.value.length > 0) {
+            setCorreoElectronicoError(false);
+            setCorreoElectronicoErrorMensaje("");
+        } else {
+            setCorreoElectronicoError(true)
+            setCorreoElectronicoErrorMensaje("Este campo es requerido.")
+        }
+    }
+
+    const handleContrasenaBlur = () => {
+        if (contrasena.length === 0) {
+            setContrasenaError(true)
+            setContrasenaErrorMensaje("Este campo es requerido.")
+        }
+    }
+
+    const handleContrasenaChange = (event) => {
+        setContrasena(event.target.value);
+        if (event.target.value.length < 8) {
+            setContrasenaError(true)
+            setContrasenaErrorMensaje("La contraseña debe tener mínimo 8 caracteres.")
+        } else {
+            setContrasenaError(false)
+            setContrasenaErrorMensaje("")
+        }
+    }
+
+    const handleContrasenaConfirmadaBlur = () => {
+        if (contrasenaConfirmada.length === 0) {
+            setContrasenaConfirmadaError(true)
+            setContrasenaConfirmadaErrorMensaje("Este campo es requerido.")
+        }
+    }
+
+    const handleContrasenaConfirmadaChange = (event) => {
+        setContrasenaConfirmada(event.target.value);
+        if (event.target.value !== contrasena) {
+            setContrasenaConfirmadaError(true)
+            setContrasenaConfirmadaErrorMensaje("Las contraseñas no coinciden.")
+        } else {
+            setContrasenaConfirmadaError(false)
+            setContrasenaConfirmadaErrorMensaje("")
+        }
+    }
+
+    const handleCodigoDoctorBlur = () => {
+        if (codigoDoctor.length === 0) {
+            setCodigoDoctorError(true);
+            setCodigoDoctorErrorMensaje("Este campo es requerido.");
+        }
+    }
+
+    const handleCodigoDoctorChange = (event) => {
+        setCodigoDoctor(event.target.value);
+        if (event.target.value.length > 0) {
+            setCodigoDoctorError(false);
+            setCodigoDoctorErrorMensaje("");
+        } else {
+            setCodigoDoctorError(true)
+            setCodigoDoctorErrorMensaje("Este campo es requerido.")
         }
     }
 
@@ -301,6 +430,7 @@ export const RegistroDoctor = () => {
                                     helperText={nombreErrorMensaje}
                                     label="Nombre(s)*"
                                     variant="outlined"
+                                    value={nombre}
                                     onChange={handleNombreChange}
                                     onBlur={handleNombreBlur}
                                 />
@@ -328,6 +458,7 @@ export const RegistroDoctor = () => {
                                     helperText={apellidoErrorMensaje}
                                     label="Apellido(s)*"
                                     variant="outlined"
+                                    value={apellido}
                                     onChange={handleApellidoChange}
                                     onBlur={handleApellidoBlur}
                                 />
@@ -355,6 +486,7 @@ export const RegistroDoctor = () => {
                                     helperText={telefonoErrorMensaje}
                                     label="Teléfono*"
                                     variant="outlined"
+                                    value={telefono}
                                     onChange={handleTelefonoChange}
                                     onBlur={handleTelefonoBlur}
                                 />
@@ -382,6 +514,7 @@ export const RegistroDoctor = () => {
                                     helperText={ciErrorMensaje}
                                     label="Nro. CI*"
                                     variant="outlined"
+                                    value={ci}
                                     onChange={handleCiChange}
                                     onBlur={handleCiBlur}
                                 />
@@ -409,6 +542,7 @@ export const RegistroDoctor = () => {
                                     helperText={direccionErrorMensaje}
                                     label="Dirección*"
                                     variant="outlined"
+                                    value={direccion}
                                     onChange={handleDireccionChange}
                                     onBlur={handleDireccionBlur}
                                 />
@@ -436,42 +570,55 @@ export const RegistroDoctor = () => {
                                     helperText={direccionLaboralErrorMensaje}
                                     label="Dirección laboral*"
                                     variant="outlined"
+                                    value={direccionLaboral}
                                     onChange={handleDireccionLaboralChange}
                                     onBlur={handleDireccionLaboralBlur}
                                 />
                             </div>
 
                             <div className="row" style={{ padding: "1rem" }}>
-                                <FormControl className={classes.margin} onChange={handleInputChange} required>
-                                    <InputLabel htmlFor="input-with-icon-adornment">Fecha Nacimiento</InputLabel>
-                                    <Input
-                                        id="input-with-icon-adornment"
-                                        startAdornment={
-                                            <InputAdornment position="start">
-                                                <Event/>
-                                            </InputAdornment>
-                                        }
-                                        type="date"
-                                        name="fecha_nac"
-                                        value={fecha_nac}
-                                        error={fecha_nac.length > 0 ? false : true}
+                                {/*<FormControl className={classes.margin} onChange={handleInputChange} required>*/}
+                                {/*    <InputLabel htmlFor="input-with-icon-adornment">Fecha Nacimiento</InputLabel>*/}
+                                {/*    <Input*/}
+                                {/*        id="input-with-icon-adornment"*/}
+                                {/*        startAdornment={*/}
+                                {/*            <InputAdornment position="start">*/}
+                                {/*                <Event/>*/}
+                                {/*            </InputAdornment>*/}
+                                {/*        }*/}
+                                {/*        type="date"*/}
+                                {/*        name="fecha_nac"*/}
+                                {/*        value={fecha_nac}*/}
+                                {/*        error={fecha_nac.length > 0 ? false : true}*/}
+                                {/*    />*/}
+                                {/*</FormControl>*/}
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <DatePicker
+                                        label="Fecha de nacimiento*"
+                                        openTo="year"
+                                        format="dd/MM/yyyy"
+                                        value={fechaDeNacimiento}
+                                        views={["year", "month", "date"]}
+                                        onChange={setFechaDeNacimiento}
+                                        disableFuture
+                                        inputVariant="outlined"
                                     />
-                                </FormControl>
+                                </MuiPickersUtilsProvider>
                             </div>
 
                             <div className="row" style={{ padding: "1rem" }}>
-                                <FormControl className={classes.margin} onChange={handleInputChange} required>
-                                    <InputLabel id="genero">genero</InputLabel>
+                                <FormControl variant="outlined" className={classes.formControl}>
+                                    <InputLabel id="genero">Género*</InputLabel>
                                     <Select
                                         labelId="genero"
                                         id="genero-pick"
                                         value={genero}
                                         name="genero"
-                                        onChange={handleInputChange}
+                                        onChange={handleGeneroChange}
+                                        label="Género*"
                                     >
-                                        <MenuItem value={"M"}>Hombre</MenuItem>
-                                        <MenuItem value={"F"}>Mujer</MenuItem>
-                                        <MenuItem value={"O"}>Otro</MenuItem>
+                                        <MenuItem value={"M"}>Masculino</MenuItem>
+                                        <MenuItem value={"F"}>Femenino</MenuItem>
                                     </Select>
                                 </FormControl>
                             </div>
@@ -497,12 +644,13 @@ export const RegistroDoctor = () => {
                                 {/*</FormControl>*/}
                                 <TextField
                                     id="outlined-basic"
-                                    error={nombreError}
-                                    helperText={nombreErrorMensaje}
+                                    error={correoElectronicoError}
+                                    helperText={correoElectronicoErrorMensaje}
                                     label="Correo electrónico*"
                                     variant="outlined"
-                                    onChange={handleNombreChange}
-                                    onBlur={handleNombreBlur}
+                                    value={correoElectronico}
+                                    onChange={handleCorreoElectronicoChange}
+                                    onBlur={handleCorreoElectronicoBlur}
                                 />
                             </div>
 
@@ -524,12 +672,14 @@ export const RegistroDoctor = () => {
                                 {/*</FormControl>*/}
                                 <TextField
                                     id="outlined-basic"
-                                    error={nombreError}
-                                    helperText={nombreErrorMensaje}
+                                    error={contrasenaError}
+                                    helperText={contrasenaErrorMensaje}
                                     label="Contraseña*"
                                     variant="outlined"
-                                    onChange={handleNombreChange}
-                                    onBlur={handleNombreBlur}
+                                    value={contrasena}
+                                    type="password"
+                                    onChange={handleContrasenaChange}
+                                    onBlur={handleContrasenaBlur}
                                 />
                             </div>
 
@@ -551,12 +701,14 @@ export const RegistroDoctor = () => {
                                 {/*</FormControl>*/}
                                 <TextField
                                     id="outlined-basic"
-                                    error={nombreError}
-                                    helperText={nombreErrorMensaje}
+                                    error={contrasenaConfirmadaError}
+                                    helperText={contrasenaConfirmadaErrorMensaje}
                                     label="Confirmar contraseña*"
                                     variant="outlined"
-                                    onChange={handleNombreChange}
-                                    onBlur={handleNombreBlur}
+                                    value={contrasenaConfirmada}
+                                    type="password"
+                                    onChange={handleContrasenaConfirmadaChange}
+                                    onBlur={handleContrasenaConfirmadaBlur}
                                 />
                             </div>
 
@@ -578,24 +730,26 @@ export const RegistroDoctor = () => {
                                 {/*</FormControl>*/}
                                 <TextField
                                     id="outlined-basic"
-                                    error={nombreError}
-                                    helperText={nombreErrorMensaje}
+                                    error={codigoDoctorError}
+                                    helperText={codigoDoctorErrorMensaje}
                                     label="Código doctor*"
                                     variant="outlined"
-                                    onChange={handleNombreChange}
-                                    onBlur={handleNombreBlur}
+                                    value={codigoDoctor}
+                                    onChange={handleCodigoDoctorChange}
+                                    onBlur={handleCodigoDoctorBlur}
                                 />
                             </div>
 
                             <div className="row" style={{ padding: "1rem" }}>
-                                <FormControl className={classes.margin} onChange={handleInputChange} required>
-                                    <InputLabel id="especialidad">Especialidad</InputLabel>
+                                <FormControl variant="outlined" className={classes.formControl}>
+                                    <InputLabel id="especialidad">Especialidad*</InputLabel>
                                     <Select
                                         labelId="especialidad"
                                         id="especialidad-pick"
                                         value={especialidad}
                                         name="especialidad"
                                         onChange={handleInputChange}
+                                        label="Especialidad*"
                                     >
                                         <MenuItem value={1}>Pediatra</MenuItem>
                                         <MenuItem value={2}>Neurologo</MenuItem>
