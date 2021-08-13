@@ -1,4 +1,4 @@
-import { Button, Container, Divider, FormControl, Grid, Input, InputAdornment, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
+import { Button, Container, FormControl, Grid, Input, InputAdornment, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 import React from 'react'
 
 import { useStyles } from '../../common/estilos'
@@ -26,7 +26,7 @@ export const Registro = () => {
 
     });
 
-    const registrar = async() => {
+    const registrar = async () => {
         const userData = {
             'persona': {
                 'nombres': nombre,
@@ -97,7 +97,7 @@ export const Registro = () => {
                                         value={nombre}
                                         required
                                         onChange={handleInputChange}
-                                        error={nombre.length>0 ? false : true }
+                                        error={nombre.length > 0 ? false : true}
                                     />
                                 </FormControl>
                             </div>
@@ -116,7 +116,7 @@ export const Registro = () => {
                                         name="apellido"
                                         value={apellido}
                                         required
-                                        error={apellido.length>0 ? false : true }
+                                        error={apellido.length > 0 ? false : true}
                                     />
                                 </FormControl>
                             </div>
@@ -135,7 +135,7 @@ export const Registro = () => {
                                         name="telefono"
                                         value={telefono}
                                         required
-                                        error={telefono.length>0 ? false : true }
+                                        error={telefono.length > 0 ? false : true}
                                     />
                                 </FormControl>
                             </div>
@@ -154,7 +154,7 @@ export const Registro = () => {
                                         name="ci"
                                         value={ci}
                                         required
-                                        error={ci.length>0 ? false : true }
+                                        error={ci.length > 0 ? false : true}
                                     />
                                 </FormControl>
                             </div>
@@ -173,7 +173,7 @@ export const Registro = () => {
                                         name="direccion"
                                         value={direccion}
                                         required
-                                        error={direccion.length>0 ? false : true }
+                                        error={direccion.length > 0 ? false : true}
                                     />
                                 </FormControl>
                             </div>
@@ -192,7 +192,7 @@ export const Registro = () => {
                                         name="fecha_nac"
                                         value={fecha_nac}
                                         required
-                                        error={fecha_nac.length>0 ? false : true }
+                                        error={fecha_nac.length > 0 ? false : true}
                                     />
                                 </FormControl>
                             </div>
@@ -213,7 +213,7 @@ export const Registro = () => {
                                         name="correo"
                                         value={correo}
                                         required
-                                        error={correo.length>0 ? false : true }
+                                        error={correo.length > 0 ? false : true}
                                     />
                                 </FormControl>
                             </div>
@@ -232,7 +232,7 @@ export const Registro = () => {
                                         name="contraseña"
                                         value={contraseña}
                                         required
-                                        error={contraseña.length>0 ? false : true }
+                                        error={contraseña.length > 0 ? false : true}
                                     />
                                 </FormControl>
                             </div>
@@ -251,8 +251,8 @@ export const Registro = () => {
                                         name="confirmar"
                                         value={confirmar}
                                         required
-                                        error={confirmar.length>0 ? false : true }
-                                        
+                                        error={confirmar.length > 0 ? false : true}
+
                                     />
                                 </FormControl>
                             </div>
@@ -266,7 +266,7 @@ export const Registro = () => {
                                         value={rol}
                                         name="rol"
                                         onChange={handleInputChange}
-                                        
+
                                     >
                                         <MenuItem value={1}>Admin General</MenuItem>
                                         <MenuItem value={2}>Admin Funcional</MenuItem>

@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react'
 import {
     BrowserRouter as Router,
     Switch,
-    Redirect
+    Redirect,
+    Route
 } from 'react-router-dom';
 import { AppBarPer } from '../components/AppBarPer';
 import { Main } from '../components/Main';
@@ -17,6 +18,7 @@ import { login } from '../actions/auth';
 import { PublicRoute } from './PublicRoute';
 import { PrivateRoute } from './PrivateRoute';
 import { useDispatch } from 'react-redux';
+import { Caledario } from '../components/reserva/Caledario';
 
 export const AppRouter = () => {
 
@@ -80,6 +82,12 @@ export const AppRouter = () => {
                         path="/registro-doc"
                         component={RegistroDoctor}
                         isAuthenticated={isLoggedIn}
+                    />
+                    
+                    <Route 
+                        exact
+                        path="/calendar"
+                        component={Caledario}
                     />
 
                     <Redirect to="/auth/login" />

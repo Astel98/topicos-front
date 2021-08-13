@@ -31,6 +31,57 @@ export const useForm = (initialState = {}) => {
 
 }
 
+export const useFormError = (initialState = {}) => {
+
+    const [values, setValues] = useState(initialState);
+
+    const reset = () => {
+        setValues(initialState);
+    }
+
+
+    const handleInputChange = ({ target }) => {
+
+        setValues({
+            ...values,
+            [target.attributes.ename.value]: target.attributes['aria-invalid'].value
+        });
+
+    }
+
+    return { values, handleInputChange, reset }
+
+}
+
+export const useFormEMessage = (initialState = {}) => {
+
+    const [values, setValues] = useState(initialState);
+
+    const reset = () => {
+        setValues(initialState);
+    }
+
+
+    const handleInputChange = ({ target }) => {
+
+        if (target.name.includes('path')) {
+            setValues({
+                ...values,
+                [target.name]: target.files[0]
+            });
+        }
+        else {
+            setValues({
+                ...values,
+                [target.name]: target.value
+            });
+        }
+
+    }
+
+    return { values, handleInputChange, reset }
+
+}
 
 export const useFormDoc = (initialState = {}) => {
 
@@ -53,29 +104,3 @@ export const useFormDoc = (initialState = {}) => {
     return { docs, handleInputChangeDoc, reset }
 
 }
-
-
-// //Password
-// const [pass, setPass] = useState('password');
-// const [icono, setIcono] = useState('bi bi-eye-slash');
-// const alternarPass = () => {
-//     if (pass === 'password') {
-//         setPass('text')
-//         setIcono('bi bi-eye')
-//     } else {
-//         setPass('password')
-//         setIcono('bi bi-eye-slash')
-//     };
-// }
-// //Confirmar Password
-// const [confir, setConfir] = useState('password');
-// const [iconoC, setIconoC] = useState('bi bi-eye-slash');
-// const alternarConfir = () => {
-//     if (confir === 'password') {
-//         setConfir('text')
-//         setIconoC('bi bi-eye')
-//     } else {
-//         setConfir('password')
-//         setIconoC('bi bi-eye-slash')
-//     };
-// }

@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { makeStyles } from '@material-ui/core/styles';
 
 const drawerWidth = 240;
@@ -13,6 +11,17 @@ export const useStyles = makeStyles((theme) => ({
     divLogin: {
         margin: 'auto',
         padding: '100px',
+    },
+    calendarScreen: {
+        margin: 'auto',
+        padding: '100px',
+        display: 'flex',
+        flexFlow: 'column',
+        height: '100vh',
+        backgroundColor: 'white',
+        borderRadius: '150px',
+        boxShadow: '5px 5px #AAAAAA',
+        
     },
     cardLogin: {
         boxShadow: '5px 5px #888888',
