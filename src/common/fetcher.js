@@ -16,7 +16,6 @@ export const fetchSinToken = async ( endpoint, data, method = 'GET' ) => {
         const fetched = await fetch( url, {
             method,
             headers: {
-                'Content-type': 'application/json'
             },
             body: JSON.stringify( data )
         });
@@ -60,19 +59,20 @@ export const fetchConToken = ( endpoint, access, data, method = 'GET' ) => {
     const url = `${ baseUrl }/${ endpoint }/`;
     const token = localStorage.getItem('access-token');
 
+    console.log(token)
+
     if ( method === 'GET' ) {
         return fetch( url, {
             method,
             headers: {
-                'Authorization': 'Bearer '+token
+                'Authorization': token
             }
         });
     } else {
         return fetch( url, {
             method,
             headers: {
-                'Content-type': 'application/json',
-                'Authorization': 'Bearer '+token
+                'Authorization': token
             },
             body: JSON.stringify( data )
         });

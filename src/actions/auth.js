@@ -6,7 +6,7 @@ export const startLoginEmailPassword = (email, contraseña) => {
     return async (dispatch) => {
         const data = {
             "correo_electronico": email,
-            "password": contraseña
+            "contrasena": contraseña
         }
 
         fetchSinToken('iniciar-sesion', data, 'POST').then(
@@ -15,14 +15,14 @@ export const startLoginEmailPassword = (email, contraseña) => {
                     resp.json().then(
                         (data) => {
                             console.log(data)
-                            localStorage.setItem('access-token', data.access);
-                            localStorage.setItem('refresh-token', data.refresh);
+                            localStorage.setItem('access-token', data.token);
+                            localStorage.setItem('user-id', data.usuario_id);
+                            localStorage.setItem('grupo-id', data.grupo_id);
                             localStorage.setItem('is-auth', true);
-                            dispatch(login(data.refresh, data.access, true))
+                            dispatch(login(data.usuario_id, data.token, true))
                         }
                     )
                 }else{
-                    // alert("Error al iniciar sesion, revise las credenciales")
                     alertaError("Credenciales incorrectas");
                 }
             }

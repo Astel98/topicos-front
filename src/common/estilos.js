@@ -12,15 +12,35 @@ export const useStyles = makeStyles((theme) => ({
         margin: 'auto',
         padding: '100px',
     },
-    calendarScreen: {
+    mainDiv: {
         margin: 'auto',
         padding: '100px',
         display: 'flex',
         flexFlow: 'column',
         height: '100vh',
+        width: '100vw',
+        overflow: 'auto',
+        flexDirection: 'column'
+    },
+    calendarScreen: {
+        margin: 'auto',
+        padding: '100px',
+        display: 'flex',
+        flexFlow: 'column',
+        height: '70vh',
+        overflow: 'auto',
+        flexDirection: 'column'
+        
+    },
+    calendarPaperScreen: {
+        margin: 'auto',
+        display: 'flex',
+        flexFlow: 'column',
+        height: '70vh',
         backgroundColor: 'white',
-        borderRadius: '150px',
-        boxShadow: '5px 5px #AAAAAA',
+        padding: theme.spacing(2),
+        overflow: 'auto',
+        flexDirection: 'column'
         
     },
     cardLogin: {

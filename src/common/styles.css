@@ -1,0 +1,112 @@
+.calendar-screen {
+    display: flex;
+    flex-flow: column;
+    height: 70vh;
+}
+
+.root {
+    display: flex;
+    background-image: url('fondo.jpg');
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
+}
+
+.rbc-calendar {
+    height: 100%;
+}
+
+.calendar-card {
+    display: flex;
+    flex-flow: column;
+    margin: auto;
+    height: 70vh;
+    align-items: center;
+}
+
+.title-text {
+    text-align: center;
+    color: black;
+    text-transform: uppercase;
+}
+
+.card-media {
+    height: 200px;
+}
+
+.card-class {
+    margin: auto;
+    height: 500px;
+    display: flex;
+    overflow: auto;
+    flex-flow: column;
+    flex-direction: column;
+}
+
+.card-body {
+    margin: auto;
+    height: 200px;
+}
+
+.card-footer {
+    margin: auto;
+    height: 80px;
+}
+
+.divMain {
+    margin: auto;
+    padding-top: 80px;
+    padding-right: 10px;
+    padding-left: 10px;
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    flex-direction: column;
+}
+
+.div-card {
+    margin: auto;
+    padding: 100px;
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+    width: 100vw;
+    overflow: auto;
+    flex-direction: column;
+}
+
+.card-login {
+    box-shadow: 5px 5px #888888;
+    padding: 20px;
+    border-radius: 15px;
+    border-width: 1px;
+    border-color: black;
+}
+
+.loginfield {
+    padding: 5px 5px 20px 5px;
+    margin: 5px;
+}
+
+.bot-text {
+    padding: 10px;
+    text-align: center;
+    color: #888888;
+}
+
+.center-button {
+    margin-right: auto;
+    margin-left: auto;
+    width: 100%;
+}
+
+.meet-card {
+    margin: auto;
+    display: flex;
+    flex-flow: column;
+    height: 80vh;
+    overflow: hidden;
+    flex-direction: column;
+}

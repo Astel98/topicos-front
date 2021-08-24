@@ -9,7 +9,7 @@ import {
 import { AppBarPer } from '../components/AppBarPer';
 import { Main } from '../components/Main';
 
-import { useStyles } from '../common/estilos'
+// import { useStyles } from '../common/estilos'
 import { Lista } from '../components/solicitud/Lista';
 import { Registro } from '../components/register/Registro';
 import { RegistroDoctor } from '../components/register/RegistroDoctor';
@@ -19,10 +19,11 @@ import { PublicRoute } from './PublicRoute';
 import { PrivateRoute } from './PrivateRoute';
 import { useDispatch } from 'react-redux';
 import { Caledario } from '../components/reserva/Caledario';
+import { Perfil } from '../components/user/Perfil';
+import { Cita } from '../components/cita/Cita';
 
 export const AppRouter = () => {
 
-    const classes = useStyles();
     const dispatch = useDispatch();
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -33,13 +34,15 @@ export const AppRouter = () => {
 
         let auth = localStorage.getItem('is-auth');
         let token = localStorage.getItem('access-token');
-        let access = localStorage.getItem('refresh-token');
+        let userId = localStorage.getItem('user-id');
 
-        if (auth === 'true') {
-            dispatch(login(access, token, auth));
-            setIsLoggedIn(true);
-        } else {
-            setIsLoggedIn(false);
+        if(auth !== isLoggedIn.toString()){
+            if (auth === 'true') {
+                dispatch(login(userId, token, auth));
+                setIsLoggedIn(true);
+            } else {
+                setIsLoggedIn(false);
+            }
         }
 
 
@@ -47,7 +50,7 @@ export const AppRouter = () => {
 
     return (
         <Router>
-            <div className={classes.root}>
+            <div className="root">
                 <AppBarPer />
                 <Switch>
                     <PublicRoute
@@ -88,6 +91,16 @@ export const AppRouter = () => {
                         exact
                         path="/calendar"
                         component={Caledario}
+                    />
+                    <Route 
+                        exact
+                        path="/perfil"
+                        component={Perfil}
+                    />
+                    <Route 
+                        exact
+                        path="/cita"
+                        component={Cita}
                     />
 
                     <Redirect to="/auth/login" />

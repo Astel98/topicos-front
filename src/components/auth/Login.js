@@ -13,7 +13,6 @@ export const Login = () => {
 
     const { loggued } = useSelector(state => state.auth)
 
-    const classes = useStyles();
 
     const [redirect, setRedirect] = useState('false')
 
@@ -25,28 +24,28 @@ export const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault()
-        dispatch(startLoginEmailPassword(email, contraseña))
 
 
-        if (email === '' && contraseña === '') {
+        if (email === '' | contraseña === '') {
             return;
         } else {
             console.log('Redireccionando')
-            setRedirect('true');
+            dispatch(startLoginEmailPassword(email, contraseña))
+            // setRedirect(localStorage.getItem('is-auth'));
         }
     }
 
 
     return (
         <>
-            <Card className={classes.cardLogin} variant="outlined" >
-                <Typography variant='h6' className={classes.botText}>
+            <Card className="card-login" variant="outlined" >
+                <Typography variant='h6' className="bot-text">
                     IClounic - Ingresa
                 </Typography>
 
                 <form onSubmit={handleLogin}>
                     <CardContent>
-                        <FormControl className={classes.loginInput} onChange={handleInputChange} required >
+                        <FormControl className="login-field" style={{padding: '5px  5px 20px 5px'}} onChange={handleInputChange} required >
                             <InputLabel>Correo</InputLabel>
                             <Input
                                 startAdornment={
@@ -65,7 +64,7 @@ export const Login = () => {
 
                         <br />
 
-                        <FormControl className={classes.loginInput} onChange={handleInputChange} required >
+                        <FormControl className="login-field" style={{padding: '5px  5px 20px 5px'}} onChange={handleInputChange} required >
                             <InputLabel>Contraseña</InputLabel>
                             <Input
                                 startAdornment={
@@ -83,17 +82,17 @@ export const Login = () => {
                         </FormControl>
                     </CardContent>
                     <CardActions>
-                        <Button className={classes.button}
+                        <Button className="center-button"
                             variant="contained"
                             color="primary"
                             type="submit"
                             onClick={handleLogin}>
                             Ingresar
                         </Button>
-                        {!loggued ? null : <Redirect to="/main" />}
+                        {localStorage.getItem('is-auth') !== 'true' ? null : <Redirect to="/main" />}
                     </CardActions>
                 </form>
-                <Typography variant='subtitle1' className={classes.botText}>
+                <Typography variant='subtitle1' className="bot-text">
                     ¿No tienes cuenta?
                     <Link to="/auth/register"> Registrate </Link>
                 </Typography>

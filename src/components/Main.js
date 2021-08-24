@@ -8,6 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import { useStyles } from '../common/estilos'
 import { Lista } from './solicitud/Lista';
+import { Perfil } from './user/Perfil';
 
 function Copyright() {
     return (
@@ -38,24 +39,12 @@ export const Main = () => {
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
                     <Grid container spacing={3}>
+
                         {/* Chart */}
                         <Grid item xs={12} md={8} lg={9}>
-                            <Paper className={fixedHeightPaper}>
-                                Pagina Principal del sitio
-                            </Paper>
+                            <Perfil ></Perfil>
                         </Grid>
-                        {/* Texto de relleno 1
-                        <Grid item xs={12} md={4} lg={3}>
-                            <Paper className={fixedHeightPaper}>
-                                BBB
-                            </Paper>
-                        </Grid>
-                        Texto de relleno 2
-                        <Grid item xs={12}>
-                            <Paper className={classes.paper}>
-                                CCC
-                            </Paper>
-                        </Grid> */}
+                       
                     </Grid>
                     <Box pt={4}>
                         <Copyright />

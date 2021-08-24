@@ -20,36 +20,42 @@ import { Button } from '@material-ui/core';
 import { fetchSinToken, fetchConToken } from '../../common/fetcher';
 import { useSelector } from 'react-redux';
 import { calcularEdad } from '../../common/funciones';
+import { alertaError, alertaRechazo, alertaSuccess } from '../../common/alertas';
 
 
-const init = {
-    "id": 3,
-    "estado": "Pendiente",
-    "fecha_creacion": "2021-08-03T04:46:44.543082Z",
-    "fecha_actualizacion": "2021-08-03T04:46:44.543105Z",
-    "doctor": {
-        "persona": 7,
-        "direccion_laboral": "Calle Florida, N°12",
-        "fecha_nacimiento": "1996-06-17",
-        "sexo": "M",
-        "codigo_ss": null,
-        "ci_url": "/ci.jpg",
-        "titulo_url": "/title.jpg",
-        "img_url": "/img.jpeg",
-        "especialidades": [
-            {
-                "id": 1,
-                "nombre": "Cardiología",
-                "descripcion": "Problemas del corazón."
-            }
-        ],
-        "nombres": "Roberto",
-        "apellidos": "Pérez",
-        "telefono": 72615801,
-        "ci": 779550,
-        "correo_electronico": "roberto@gmail.com"
+const init =
+{
+    "solicitud": {
+        "id": 1,
+        "fecha_creacion": "2021-08-19T00:00:00Z",
+        "fecha_actualizacion": "2021-08-19T00:00:00Z",
+        "estado": "Pendiente",
+        "motivo": null,
+        "administrador_id": null,
+        "doctor_id": 1
     },
-    "administrador": null
+    "persona": {
+        "id": 1,
+        "nombres": "Diego",
+        "apellidos": "Choque",
+        "telefono": 72615803,
+        "ci": 12312,
+        "correo_electronico_codigo": 70129,
+        "telefono_codigo": 58118,
+        "datos_verificados": true,
+        "usuario_id": 1
+    },
+    "doctor": {
+        "persona_id": 1,
+        "direccion_laboral": "Barrio el Recreo",
+        "fecha_nacimiento": "1996-06-17T00:00:00Z",
+        "sexo": "M",
+        "codigo_ss": "ASDW12",
+        "ci_path": null,
+        "titulo_path": null,
+        "img_path": null,
+        "especialidad_id": 1
+    }
 }
 
 export const Lista = () => {
@@ -96,40 +102,44 @@ export const Lista = () => {
         switch (accion) {
             case 'aceptar':
                 const userData1 = {
+                    'id': Number(id),
                     'estado': 'Aceptada'
                 }
 
                 console.log(JSON.stringify(userData1))
 
-                const resp1 = await fetchSinToken(`solicitudes/${id}/confirmar`, userData1, 'POST');
+                const resp1 = await fetchConToken('solicitudes/confirmar','', userData1, 'POST');
 
                 console.log(resp1)
 
                 if (resp1.ok) {
-                    alert("Usuario Aceptado")
+                    alertaSuccess("Solicitud Aceptada", "Solicitud de Doctor")
                 } else {
                     console.log("AAAAAAAAAAa ERRORRRRR");
                 }
                 getLista();
                 break;
             case 'rechazar':
-
+                
                 const userData2 = {
+                    'id': Number(id),
                     'estado': 'Rechazada'
                 }
 
-                console.log(JSON.stringify(userData2))
+                alertaRechazo(id)
 
-                const resp2 = await fetchSinToken(`solicitudes/${id}/confirmar`, userData2, 'POST');
+                // console.log(JSON.stringify(userData2))
+
+                // const resp2 = await fetchConToken(`solicitudes/confirmar`,'', userData2, 'POST');
 
 
-                console.log(resp2)
+                // console.log(resp2)
 
-                if (resp2.ok) {
-                    alert("Usuario Rechazado")
-                } else {
-                    console.log("AAAAAAAAAAa ERRORRRRR");
-                }
+                // if (resp2.ok) {
+                //     alertaError("Solicitud Rechazada", "Solicitud de Doctor")
+                // } else {
+                //     console.log("AAAAAAAAAAa ERRORRRRR");
+                // }
 
                 getLista();
                 break;
@@ -177,23 +187,23 @@ export const Lista = () => {
             <React.Fragment>
                 <TableRow className={classes.root} >
                     <TableCell>
-                        <img src={() => (getPerfil(row.doctor.persona))} style={{ maxWidth: "100px", maxHeight: "100px" }} />
+                        {/* <img src={() => (getPerfil(row.doctor.persona_id))} style={{ maxWidth: "100px", maxHeight: "100px" }} /> */}
                         <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
                             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                         </IconButton>
                     </TableCell>
                     <TableCell component="th" scope="row">
-                        {(row.doctor.nombres + " " + row.doctor.apellidos)}
+                        {(row.persona.nombres + " " + row.persona.apellidos)}
                     </TableCell>
-                    <TableCell align="right">{row.doctor.correo_electronico}</TableCell>
-                    <TableCell align="right">{row.doctor.telefono}</TableCell>
+                    <TableCell align="right">{row.persona.correo_electronico_codigo}</TableCell>
+                    <TableCell align="right">{row.persona.telefono}</TableCell>
                     <TableCell align="right">{calcularEdad(row.doctor.fecha_nacimiento)}</TableCell>
-                    <TableCell align="right">{row.doctor.ci}</TableCell>
+                    <TableCell align="right">{row.persona.ci}</TableCell>
                     <TableCell align="right">
                         <Button variant="outlined"
                             color="primary"
                             className={classes.button}
-                            onClick={() => handleButton('aceptar', row.id)}
+                            onClick={() => handleButton('aceptar', row.solicitud.id)}
                             startIcon={<CheckIcon />}>
                             Aceptar
                         </Button>
@@ -201,7 +211,7 @@ export const Lista = () => {
                             variant="outlined"
                             color="secondary"
                             className={classes.button}
-                            onClick={() => handleButton('rechazar', row.id)}
+                            onClick={() => handleButton('rechazar', row.solicitud.id)}
                             startIcon={<DeleteIcon />}
                         >
                             Rechazar
@@ -233,13 +243,13 @@ export const Lista = () => {
                                             </TableCell>
                                             <TableCell>{row.doctor.sexo}</TableCell>
                                             <TableCell>{row.doctor.direccion_laboral}</TableCell>
-                                            <TableCell>{row.doctor.especialidades[0].nombre}</TableCell>
+                                            <TableCell>{row.doctor.especialidad_id}</TableCell>
                                             <TableCell align="right">
                                                 <Button
                                                     variant="outlined"
                                                     color="primary"
                                                     className={classes.button}
-                                                    onClick={() => handleButton('getCI', row.doctor.persona)}
+                                                    onClick={() => handleButton('getCI', row.persona.id)}
                                                 >
                                                     CI
                                                 </Button>
@@ -247,7 +257,7 @@ export const Lista = () => {
                                                     variant="outlined"
                                                     color="primary"
                                                     className={classes.button}
-                                                    onClick={() => handleButton('getTitulo', row.doctor.persona)}
+                                                    onClick={() => handleButton('getTitulo', row.persona.id)}
                                                 >
                                                     Titulo
                                                 </Button>
@@ -285,8 +295,8 @@ export const Lista = () => {
                 </TableHead>
                 <TableBody>
                     {lista.map((val) => {
-                        if (val.estado === 'Pendiente') {
-                            return (<Row key={val.doctor.persona} row={val} />)
+                        if (val.solicitud.estado === 'Pendiente') {
+                            return (<Row key={val.doctor.persona_id} row={val} />)
                         }
                     })}
                 </TableBody>
