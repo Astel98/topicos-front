@@ -28,6 +28,10 @@ import { alertaError, alertaSuccess } from '../../common/alertas';
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/core/styles";
 
+const axios = require('axios');
+
+const BASE_URL = 'http://67.205.186.119:8080/';
+
 const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),
@@ -121,40 +125,57 @@ export const RegistroDoctor = () => {
             }
         }
 
-
-        var dataDoc = new FormData()
-        dataDoc.append('ci_img', pathCI);
-        dataDoc.append('img', pathFoto);
-        dataDoc.append('titulo', pathTitulo);
-
-        console.log(JSON.stringify(userData))
-        console.log(JSON.stringify(dataDoc))
-
-        try {
-            const resp = await fetchSinTokenJSON('solicitudes', userData, 'POST')
-            dataDoc.append('persona_id', resp.body.persona.id);
-                const respDoc = await fetchSinTokenDoc('doctores/archivos', dataDoc, 'POST')
-                console.log(resp)
-                console.log(respDoc)
-
-                
-
-                if (resp.ok && respDoc.ok) {
-                    alertaSuccess('Usuario creado exitosamente')
-                } else {
-                    // alertaError('Error durante la creacion de usuario');
-                }
+        let url = BASE_URL + 'solicitudes/'
+        axios.post(url, userData)
+            .then(function (response) {
+                // const dataDoc = new FormData();
+                // dataDoc.append('ci_img', pathCI);
+                // dataDoc.append('img', pathFoto);
+                // dataDoc.append('titulo', pathTitulo);
+                // dataDoc.append('persona_id', response.data.persona.id.toString())
+                // const respDoc = await fetchSinTokenDoc('doctores/archivos', dataDoc, 'POST')
+                // if (respDoc.ok) {
+                //     alertaSuccess('Usuario creado exitosamente')
+                // } else {
+                //     alertaError('Error durante la creacion de usuario');
+                // }
+            })
 
 
-            // console.log(bodyDoc)
+        // var dataDoc = new FormData()
+        // dataDoc.append('ci_img', pathCI);
+        // dataDoc.append('img', pathFoto);
+        // dataDoc.append('titulo', pathTitulo);
+        //
+        // console.log(JSON.stringify(userData))
+        // console.log(JSON.stringify(dataDoc))
+        //
+        // try {
+        //     const resp = await fetchSinTokenJSON('solicitudes', userData, 'POST')
+        //     dataDoc.append('persona_id', resp.body.persona.id);
+        //
+        //     const url = BASE_URL + "doctores/archivos/"
 
-           
+            // const respDoc = await fetchSinTokenDoc('doctores/archivos', dataDoc, 'POST')
+            // console.log(resp)
+            // console.log(respDoc)
+            //
+            //
+            // if (resp.ok && respDoc.ok) {
+            //     alertaSuccess('Usuario creado exitosamente')
+            // } else {
+            //     // alertaError('Error durante la creacion de usuario');
+            // }
+            //
+            //
+            // // console.log(bodyDoc)
 
-        } catch (error) {
-            console.log(error);
-        }
 
-        alertaSuccess('Usuario creado exitosamente')
+        // } catch (error) {
+        //     console.log(error);
+        // }
+        //
+        // alertaSuccess('Usuario creado exitosamente')
 
 
     }
@@ -407,12 +428,12 @@ export const RegistroDoctor = () => {
 
                             <div className="row" style={{ padding: "1rem" }}>
                                 <FormControl className={classes.margin} required>
-                                    <InputLabel >Nombre(s)</InputLabel>
+                                    <InputLabel>Nombre(s)</InputLabel>
                                     <Input
 
                                         startAdornment={
                                             <InputAdornment position="start">
-                                                <AccountCircle />
+                                                <AccountCircle/>
                                             </InputAdornment>
                                         }
                                         type="text"
@@ -432,11 +453,11 @@ export const RegistroDoctor = () => {
 
                             <div className="row" style={{ padding: "1rem" }}>
                                 <FormControl className={classes.margin} required>
-                                    <InputLabel >Apellido(s)</InputLabel>
+                                    <InputLabel>Apellido(s)</InputLabel>
                                     <Input
                                         startAdornment={
                                             <InputAdornment position="start">
-                                                <AccountCircle />
+                                                <AccountCircle/>
                                             </InputAdornment>
                                         }
                                         type="text"
@@ -453,12 +474,12 @@ export const RegistroDoctor = () => {
 
                             <div className="row" style={{ padding: "1rem" }}>
                                 <FormControl className={classes.margin} required>
-                                    <InputLabel >Nro. Celular</InputLabel>
+                                    <InputLabel>Nro. Celular</InputLabel>
                                     <Input
 
                                         startAdornment={
                                             <InputAdornment position="start">
-                                                <AddIcCall />
+                                                <AddIcCall/>
                                             </InputAdornment>
                                         }
                                         type="number"
@@ -475,12 +496,12 @@ export const RegistroDoctor = () => {
 
                             <div className="row" style={{ padding: "1rem" }}>
                                 <FormControl className={classes.margin} required>
-                                    <InputLabel >Nro. CI</InputLabel>
+                                    <InputLabel>Nro. CI</InputLabel>
                                     <Input
 
                                         startAdornment={
                                             <InputAdornment position="start">
-                                                <AccountCircle />
+                                                <AccountCircle/>
                                             </InputAdornment>
                                         }
                                         type="text"
@@ -497,12 +518,12 @@ export const RegistroDoctor = () => {
 
                             <div className="row" style={{ padding: "1rem" }}>
                                 <FormControl className={classes.margin} required>
-                                    <InputLabel >Direccion</InputLabel>
+                                    <InputLabel>Direccion</InputLabel>
                                     <Input
 
                                         startAdornment={
                                             <InputAdornment position="start">
-                                                <Home />
+                                                <Home/>
                                             </InputAdornment>
                                         }
                                         type="text"
@@ -519,11 +540,11 @@ export const RegistroDoctor = () => {
 
                             <div className="row" style={{ padding: "1rem" }}>
                                 <FormControl className={classes.margin} required>
-                                    <InputLabel >Direccion Laboral</InputLabel>
+                                    <InputLabel>Direccion Laboral</InputLabel>
                                     <Input
                                         startAdornment={
                                             <InputAdornment position="start">
-                                                <Home />
+                                                <Home/>
                                             </InputAdornment>
                                         }
                                         type="text"
@@ -575,12 +596,12 @@ export const RegistroDoctor = () => {
                         <Grid container item xs={4} spacing={1}>
                             <div className="row" style={{ padding: "1rem" }}>
                                 <FormControl className={classes.margin} required>
-                                    <InputLabel >Correo</InputLabel>
+                                    <InputLabel>Correo</InputLabel>
                                     <Input
 
                                         startAdornment={
                                             <InputAdornment position="start">
-                                                <AlternateEmail />
+                                                <AlternateEmail/>
                                             </InputAdornment>
                                         }
                                         type="email"
@@ -597,12 +618,12 @@ export const RegistroDoctor = () => {
 
                             <div className="row" style={{ padding: "1rem" }}>
                                 <FormControl className={classes.margin} required>
-                                    <InputLabel >Contraseña</InputLabel>
+                                    <InputLabel>Contraseña</InputLabel>
                                     <Input
 
                                         startAdornment={
                                             <InputAdornment position="start">
-                                                <VisibilityOff />
+                                                <VisibilityOff/>
                                             </InputAdornment>
                                         }
                                         type="password"
@@ -619,12 +640,12 @@ export const RegistroDoctor = () => {
 
                             <div className="row" style={{ padding: "1rem" }}>
                                 <FormControl className={classes.margin} required>
-                                    <InputLabel >Confirmar</InputLabel>
+                                    <InputLabel>Confirmar</InputLabel>
                                     <Input
 
                                         startAdornment={
                                             <InputAdornment position="start">
-                                                <VisibilityOff />
+                                                <VisibilityOff/>
                                             </InputAdornment>
                                         }
                                         type="password"
@@ -641,12 +662,12 @@ export const RegistroDoctor = () => {
 
                             <div className="row" style={{ padding: "1rem" }}>
                                 <FormControl className={classes.margin} required>
-                                    <InputLabel >Codigo Doctor</InputLabel>
+                                    <InputLabel>Codigo Doctor</InputLabel>
                                     <Input
 
                                         startAdornment={
                                             <InputAdornment position="start">
-                                                <LocalHospital />
+                                                <LocalHospital/>
                                             </InputAdornment>
                                         }
                                         type="text"
