@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
@@ -20,7 +19,7 @@ import { Button } from '@material-ui/core';
 import { fetchSinToken, fetchConToken } from '../../common/fetcher';
 import { useSelector } from 'react-redux';
 import { calcularEdad } from '../../common/funciones';
-import { alertaError, alertaRechazo, alertaSuccess } from '../../common/alertas';
+import { alertaRechazo, alertaSuccess } from '../../common/alertas';
 
 
 const init =
@@ -90,9 +89,6 @@ export const Lista = () => {
 
         const imgData = await img.blob();
 
-        // console.log(img);
-        // console.log(imgData);
-
         return (URL.createObjectURL(imgData));
 
     }
@@ -120,32 +116,13 @@ export const Lista = () => {
                 getLista();
                 break;
             case 'rechazar':
-                
-                const userData2 = {
-                    'id': Number(id),
-                    'estado': 'Rechazada'
-                }
 
                 alertaRechazo(id)
-
-                // console.log(JSON.stringify(userData2))
-
-                // const resp2 = await fetchConToken(`solicitudes/confirmar`,'', userData2, 'POST');
-
-
-                // console.log(resp2)
-
-                // if (resp2.ok) {
-                //     alertaError("Solicitud Rechazada", "Solicitud de Doctor")
-                // } else {
-                //     console.log("AAAAAAAAAAa ERRORRRRR");
-                // }
-
                 getLista();
                 break;
 
             case 'getCI':
-                const img = await fetchSinToken(`doctores/${id}/descargar_ci`, '', 'GET')
+                const img = await fetchSinToken(`doctores/carnet/${id}`, '', 'GET')
 
                 const imgData = await img.blob();
 
@@ -153,12 +130,14 @@ export const Lista = () => {
                 var a = document.createElement('a');
                 a.href = url;
                 a.download = "filename";
-                document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
-                a.click();
-                a.remove();
+                document.body.appendChild(a) // we need to append the element to the dom -> otherwise it will not work in firefox
+                window.open('http://67.205.186.119:8080'+`/doctores/carnet/${id}`)
+                // a.click();
+                // a.remove();
+                break;
 
             case 'getTitulo':
-                const img2 = await fetchSinToken(`doctores/${id}/descargar_titulo`, '', 'GET')
+                const img2 = await fetchSinToken(`doctores/titulo/${id}`, '', 'GET')
 
                 const imgData2 = await img2.blob();
 
@@ -167,8 +146,12 @@ export const Lista = () => {
                 a2.href = url2;
                 a2.download = "filename";
                 document.body.appendChild(a2); // we need to append the element to the dom -> otherwise it will not work in firefox
-                a2.click();
-                a2.remove();
+                window.open('http://67.205.186.119:8080'+`/doctores/titulo/${id}`)
+                break;
+
+            case 'getPerfil':
+                window.open('http://67.205.186.119:8080'+`/doctores/foto-perfil/${id}`)
+                break;    
 
             default:
                 break;
@@ -261,6 +244,14 @@ export const Lista = () => {
                                                 >
                                                     Titulo
                                                 </Button>
+                                                <Button
+                                                    variant="outlined"
+                                                    color="primary"
+                                                    className={classes.button}
+                                                    onClick={() => handleButton('getPerfil', row.persona.id)}
+                                                >
+                                                    Foto Perfil
+                                                </Button>
                                             </TableCell>
                                         </TableRow>
                                         {/* ))} */}
@@ -280,7 +271,7 @@ export const Lista = () => {
     }, [])
 
     return (
-        <TableContainer component={Paper} style={{ paddingTop: "100px" }}>
+        <TableContainer className="div-card" component={Paper}>
             <Table aria-label="collapsible table">
                 <TableHead>
                     <TableRow>

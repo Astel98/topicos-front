@@ -1,22 +1,37 @@
 import { Grid, Paper } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
-import { fetchSinToken } from '../../common/fetcher'
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
+import { fetchConToken } from '../../common/fetcher'
 import { DetallesCita } from './DetallesCita'
 import JitsiComponent from './JitsiComponent'
 
-export const Cita = ({roomID}) => {
+export const Cita = () => {
 
-    const [meet, setMeet] = useState((<h2 className="meet-card">CARGANDO . . .</h2>))
+    const [meetPage, setMeet] = useState((<h2 className="meet-card">CARGANDO . . .</h2>))
+
+
+    const location = useLocation()
+    const { nombre, meet, paciente, id_cita } = location.state
 
     const createMeet = () => {
-        const userID = localStorage.getItem('user-id')
+        const userData = localStorage.getItem('user-data')
 
-        setMeet((
-            <JitsiComponent 
-                room={roomID ?? "b22bb193-ce20-4785-9d36-ea64fcfcf565"} 
-                name="Jose Ramirez Pendeiviz" />
-        ))
-        
+        const dataStart = {
+            "id": id_cita,
+            "estado": "En curso"
+        }
+        fetchConToken('citas', '', dataStart, 'PUT').then((resp) => {
+            if (resp.ok) {
+                setMeet((
+                    <JitsiComponent
+                        room={meet ?? "no-definido"}
+                        name={userData ?? "INVITADO"} />
+                ))
+            }
+        })
+
+
+
     }
 
     useEffect(() => {
@@ -26,16 +41,16 @@ export const Cita = ({roomID}) => {
     return (
         <div className="divMain">
             <Grid container spacing={3}>
-            <Grid item xs={4}>
-                <Paper className="meet-card">
-                    <DetallesCita />
-                </Paper>
-            </Grid>
-            <Grid item xs={8}>
-                {meet}
-            </Grid>
+                <Grid item xs={4}>
+                    <Paper className="meet-card">
+                        <DetallesCita paciente={paciente ?? { sexo: 'M', fecha_naciemiento: 'AAAA', direccion_domicilio: 'AAAA' }} name={nombre} id_cita={id_cita} />
+                    </Paper>
+                </Grid>
+                <Grid item xs={8}>
+                    {meetPage}
+                </Grid>
 
-        </Grid>
+            </Grid>
         </div>
 
 

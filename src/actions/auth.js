@@ -1,5 +1,5 @@
 import { alertaError } from '../common/alertas'
-import { fetchSinToken } from '../common/fetcher'
+import { fetchConToken, fetchSinToken } from '../common/fetcher'
 import { types } from '../types/types'
 
 export const startLoginEmailPassword = (email, contraseña) => {
@@ -19,6 +19,7 @@ export const startLoginEmailPassword = (email, contraseña) => {
                             localStorage.setItem('user-id', data.usuario_id);
                             localStorage.setItem('grupo-id', data.grupo_id);
                             localStorage.setItem('is-auth', true);
+                            doctorDataReq()
                             dispatch(login(data.usuario_id, data.token, true))
                         }
                     )
@@ -52,3 +53,13 @@ export const login = (uid, displayName, loggued) => ({
 export const logout = () => ({
     type: types.logout
 })
+
+const doctorDataReq = async () => {
+    const resp = await fetchConToken('usuario','','','GET')
+    console.log(resp);
+    resp.json().then((result) =>{
+        console.log(result)
+        localStorage.setItem('user-data', (result.nombres + " " + result.apellidos))
+    })
+    
+}

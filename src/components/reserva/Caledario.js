@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 
@@ -7,51 +7,36 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 import { useStyles } from '../../common/estilos';
 import { messages } from '../../common/calendar-messages-es';
-import { fetchSinToken } from '../../common/fetcher'
+import { fetchConToken } from '../../common/fetcher'
 import { Grid, Typography, Paper, Card, CardActionArea, CardContent, Button, CardMedia, CardActions } from '@material-ui/core'
 import { Evento } from './Evento'
 import { alertaSuccess } from '../../common/alertas'
+import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 
 moment.locale('es-mx');
 const localizer = momentLocalizer(moment)
 
-const events = [
-    {
-        title: 'Cita con Cynthia',
-        start: moment().toDate(),
-        end: moment().add(2, 'hours').toDate(),
-        bgcolor: 'pink',
-        user: {
-            name: 'mario'
-        }
-    },
-    {
-        title: 'Cita con Dario',
-        start: moment().add(15, 'minutes').toDate(),
-        end: moment().add(3, 'hours').toDate(),
-        bgcolor: 'pink',
-        user: {
-            name: 'jose'
-        }
-    },
-    {
-        title: 'Cita con Gerson',
-        start: moment().add(2, 'days').toDate(),
-        end: moment().add(3, 'hours').add(2, 'days').toDate(),
-        bgcolor: 'pink',
-        user: {
-            name: 'lucas'
-        }
-    }
-]
 
 export const Caledario = () => {
+
+    const handleCancel = (id) => {
+        const dataFin = {
+            "id": id,
+            "estado": "Cancelada"
+        }
+        fetchConToken('citas', '', dataFin, 'PUT').then((resp) => {
+            if (resp.ok) {
+                console.log(resp)
+                alertaSuccess('Cita cancelada')
+            }
+        })
+    }
 
     const onDoubleClick = (e) => {
         setEventCard(
             (
                 <Card className="card-class">
-                    <CardActionArea onClick={() =>{ alertaSuccess('Exito')}}>
+                    <CardActionArea onClick={() => { alertaSuccess('Exito') }}>
                         <CardMedia
                             className="card-media"
                             image="/images/smol.jpeg"
@@ -72,14 +57,28 @@ export const Caledario = () => {
                         </Typography>
                     </CardContent>
                     <CardActions className="card-footer">
-                        <Button size="small" color="primary">
-                            Ingresar a la sala
-                        </Button>
-                        <Button size="small" color="secondary">
+
+                        {e.cita.estado === "Pendiente" ? <Link to={{
+                            pathname: "/cita",
+                            state: {
+                                nombre: e.user.name + " " + e.user.lastName,
+                                meet: e.user.meet,
+                                id_cita: e.cita.id,
+                                paciente: e.paciente
+                            },
+                        }}>
+                            <Button size="small" color="primary">
+                                Ingresar a la sala
+                            </Button>
+                        </Link> : <Button size="small" color="primary">
+                            Cita concluida
+                        </Button>}
+
+                        <Button size="small" color="secondary" onClick={() => handleCancel(e.cita.id)}>
                             Cancelar
                         </Button>
                     </CardActions>
-                </Card>
+                </Card >
             )
         )
     }
@@ -89,12 +88,37 @@ export const Caledario = () => {
     const classes = useStyles();
 
     const getEventos = async () => {
-        const resp = await fetchSinToken(`reservas`, '', 'GET')
+        const resp = await fetchConToken('citas/doctor', '', 'GET')
         console.log(resp)
         const body = await resp.json();
+        console.log(body)
 
-        setReservas(body)
+        body.map((val) => {
+            setReservas(
+                [...reservas,
+                {
+                    title: `Cita con ${val.persona.nombres}`,
+                    start: moment(`${val.cita.fecha_hora.substr(0, 11) + val.horario.hora_inicio.substr(11, 8)}`),
+                    end: moment(`${val.cita.fecha_hora.substr(0, 11) + val.horario.hora_fin.substr(11, 8)}`),
+                    bgcolor: 'pink',
+                    cita: {
+                        id: val.cita.id,
+                        estado: val.cita.estado
+                    },
+                    paciente: val.paciente,
+                    user: {
+                        name: val.persona.nombres,
+                        lastName: val.persona.apellidos,
+                        meet: val.cita.enlace.split('/')[3]
+                    }
+                }]
+            )
+        })
     }
+
+    useEffect(() => {
+        getEventos()
+    }, [])
 
     const eventStyleGetter = (event, start, end, isSelected) => {
         const style = {
@@ -115,7 +139,7 @@ export const Caledario = () => {
                     <Paper className="calendar-screen">
                         <Calendar
                             localizer={localizer}
-                            events={events}
+                            events={reservas}
                             startAccessor="start"
                             endAccessor="end"
                             messages={messages}

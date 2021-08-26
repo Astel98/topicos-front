@@ -1,8 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
@@ -11,12 +9,12 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import { useStyles } from '../common/estilos';
 import { Button, SwipeableDrawer } from '@material-ui/core';
 import { Link } from "react-router-dom"
 import { doLogout } from '../actions/auth';
 import { useDispatch } from 'react-redux';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 
@@ -26,6 +24,7 @@ import { useDispatch } from 'react-redux';
 export const AppBarPer = () => {
 
     const auth = localStorage.getItem('is-auth');
+    let grupoID = localStorage.getItem('grupo-id');
 
     const dispatch = useDispatch()
 
@@ -40,6 +39,7 @@ export const AppBarPer = () => {
 
     const handleLogout = () => {
         dispatch(doLogout());
+        return (<Redirect to="/" />)
     }
 
     const toggleDrawer = (anchor, open) => (event) => {
@@ -58,29 +58,63 @@ export const AppBarPer = () => {
                     IClounic - Clinica en linea
                 </Typography>
 
+                {grupoID === '1' ?
+                    (<>
+                        <Divider variant="middle" />
+
+                        <Link to="/registro">
+                            <Button className={classes.title}>
+                                Registro Usuario
+                            </Button>
+                        </Link>
+
+                        <Divider variant="middle" />
+
+                        <Link to="/registro-doc">
+                            <Button className={classes.title}>
+                                Registro Doctor
+                            </Button>
+                        </Link>
+
+                        <Divider variant="middle" />
+
+                        <Link to="/lista">
+                            <Button className={classes.title}>
+                                Listar Solicitudes
+                            </Button>
+                        </Link>
+                    </>) : null}
+
+                {grupoID === '2' ?
+                    (
+                        <>
+                            <Divider variant="middle" />
+
+                            <Link to="/calendar">
+                                <Button className={classes.title}>
+                                    Calendario
+                                </Button>
+                            </Link>
+
+                            <Divider variant="middle" />
+
+                            <Link to="/reservas">
+                                <Button className={classes.title}>
+                                    Reservas
+                                </Button>
+                            </Link>
+                        </>
+                    ) : null}
+
                 <Divider variant="middle" />
 
-                <Link to="/registro">
+
+                <Link to="/perfil">
                     <Button className={classes.title}>
-                        Registro Usuario
+                        Perfil de usuario
                     </Button>
                 </Link>
 
-                <Divider variant="middle" />
-
-                <Link to="/registro-doc">
-                    <Button className={classes.title}>
-                        Registro Doctor
-                    </Button>
-                </Link>
-
-                <Divider variant="middle" />
-
-                <Link to="/lista">
-                    <Button className={classes.title}>
-                        Listar Solicitudes
-                    </Button>
-                </Link>
 
 
                 <Divider variant="middle" />
@@ -109,7 +143,7 @@ export const AppBarPer = () => {
                     </Typography>
                     {auth ? <IconButton color="inherit" onClick={handleLogout}>
                         <Badge color="secondary">
-                            <NotificationsIcon />
+                            Cerrar Sesion
                         </Badge>
                     </IconButton> : null}
                 </Toolbar>

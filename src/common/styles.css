@@ -68,10 +68,24 @@
 
 .div-card {
     margin: auto;
-    padding: 100px;
+    padding-top: 80px;
+    padding-right: 10px;
+    padding-left: 10px;
     display: flex;
     flex-flow: column;
     height: 100vh;
+    width: 100vw;
+    overflow: auto;
+    flex-direction: column;
+}
+
+.div-perfil {
+    padding-top: 80px;
+    padding-right: 10px;
+    padding-left: 10px;
+    display: flex;
+    flex-flow: column;
+    height: 80vh;
     width: 100vw;
     overflow: auto;
     flex-direction: column;
@@ -109,4 +123,15 @@
     height: 80vh;
     overflow: hidden;
     flex-direction: column;
+}
+
+.border-perfil {
+    border-top: 10px double rgb(126, 42, 175);
+    padding: 10px;
+}
+
+.border-elemento {
+    border: 1px solid rgb(112, 13, 169);
+    border-radius: 25px;
+    background-color: rgba(112, 13, 169, 0.419);
 }

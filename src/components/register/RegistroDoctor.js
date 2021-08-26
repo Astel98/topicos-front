@@ -23,7 +23,7 @@ import {
     Home,
     LocalHospital
 } from '@material-ui/icons';
-import { fetchSinToken, fetchSinTokenDoc } from '../../common/fetcher';
+import { fetchSinToken, fetchSinTokenDoc, fetchSinTokenJSON } from '../../common/fetcher';
 import { alertaError, alertaSuccess } from '../../common/alertas';
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/core/styles";
@@ -106,54 +106,55 @@ export const RegistroDoctor = () => {
                 "nombres": nombre,
                 "apellidos": apellido,
                 "telefono": Number(telefono),
-                "ci": Number(ci),
-                "usuario": {
-                    "correo_electronico": correoElectronico,
-                    "password": contrasena
-                }
+                "ci": Number(ci)
             },
-            "telefono_oficina": Number(telefono),
-            "direccion_laboral": direccionLaboral,
-            "fecha_nacimiento": fechaDeNacimiento,
-            "sexo": genero,
-            "codigo_ss": codigoDoctor,
-            "especialidades": [
-                especialidad
-            ]
+            "usuario": {
+                "correo_electronico": correoElectronico,
+                "contrasena": contrasena
+            },
+            "doctor": {
+                "direccion_laboral": direccionLaboral,
+                "fecha_nacimiento": fechaDeNacimiento,
+                "sexo": genero,
+                "codigo_ss": codigoDoctor,
+                "especialidad_id": Number(especialidad)
+            }
         }
 
+
         var dataDoc = new FormData()
-        dataDoc.append('ci', ci);
-        dataDoc.append('ci_img', docs.pathCI);
-        dataDoc.append('img', docs.pathFoto);
-        dataDoc.append('titulo', docs.pathTitulo);
+        dataDoc.append('ci_img', pathCI);
+        dataDoc.append('img', pathFoto);
+        dataDoc.append('titulo', pathTitulo);
 
         console.log(JSON.stringify(userData))
         console.log(JSON.stringify(dataDoc))
 
         try {
-            const resp = await fetchSinToken('doctores', userData, 'POST');
-            console.log("Parse Body")
-            // const body = await resp.json();
+            const resp = await fetchSinTokenJSON('solicitudes', userData, 'POST')
+            dataDoc.append('persona_id', resp.body.persona.id);
+                const respDoc = await fetchSinTokenDoc('doctores/archivos', dataDoc, 'POST')
+                console.log(resp)
+                console.log(respDoc)
 
-            const respDoc = await fetchSinTokenDoc('doctores/enviar_archivos', dataDoc, 'POST');
-            console.log("Parse Body Doc")
-            // const bodyDoc = await respDoc.json();
+                
 
-            console.log(resp)
-            // console.log(body)
-            console.log(respDoc)
+                if (resp.ok && respDoc.ok) {
+                    alertaSuccess('Usuario creado exitosamente')
+                } else {
+                    // alertaError('Error durante la creacion de usuario');
+                }
+
+
             // console.log(bodyDoc)
 
-            if (resp.ok && respDoc.ok) {
-                alertaSuccess('Usuario creado exitosamente')
-            } else {
-                alertaError('Error durante la creacion de usuario');
-            }
+           
 
         } catch (error) {
             console.log(error);
         }
+
+        alertaSuccess('Usuario creado exitosamente')
 
 
     }

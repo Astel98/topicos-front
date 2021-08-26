@@ -33,24 +33,27 @@ export const Main = () => {
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
     return (
-        <div className={classes.root}>
+        <>
+            <Perfil />
+        </>
+        // <div className={classes.root}>
 
-            <main className={classes.content}>
-                <div className={classes.appBarSpacer} />
-                <Container maxWidth="lg" className={classes.container}>
-                    <Grid container spacing={3}>
+        //     <main className={classes.content}>
+        //         <div className={classes.appBarSpacer} />
+        //         <Container maxWidth="lg" className={classes.container}>
+        //             <Grid container spacing={3}>
 
-                        {/* Chart */}
-                        <Grid item xs={12} md={8} lg={9}>
-                            <Perfil ></Perfil>
-                        </Grid>
-                       
-                    </Grid>
-                    <Box pt={4}>
-                        <Copyright />
-                    </Box>
-                </Container>
-            </main>
-        </div>
+        //                 {/* Chart */}
+        //                 <Grid item xs={12} md={8} lg={9}>
+
+        //                 </Grid>
+
+        //             </Grid>
+        // <Box pt={4}>
+        //     <Copyright />
+        // </Box>
+        //         </Container>
+        //     </main>
+        // </div>
     );
 }

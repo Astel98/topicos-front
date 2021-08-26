@@ -4,17 +4,12 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import { startLoginEmailPassword } from '../../actions/auth';
-import { useStyles } from '../../common/estilos';
+import { alertaError } from '../../common/alertas';
 import { useForm } from '../../hooks/useForm'
 
 export const Login = () => {
 
     const dispatch = useDispatch()
-
-    const { loggued } = useSelector(state => state.auth)
-
-
-    const [redirect, setRedirect] = useState('false')
 
     const { values, handleInputChange } = useForm({
         email: '', contraseña: ''
@@ -24,14 +19,12 @@ export const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault()
-
-
         if (email === '' | contraseña === '') {
+            alertaError('Los campos no deben estar vacios')
             return;
         } else {
-            console.log('Redireccionando')
             dispatch(startLoginEmailPassword(email, contraseña))
-            // setRedirect(localStorage.getItem('is-auth'));
+            // window.location.reload(false);
         }
     }
 
@@ -89,7 +82,6 @@ export const Login = () => {
                             onClick={handleLogin}>
                             Ingresar
                         </Button>
-                        {localStorage.getItem('is-auth') !== 'true' ? null : <Redirect to="/main" />}
                     </CardActions>
                 </form>
                 <Typography variant='subtitle1' className="bot-text">
@@ -97,6 +89,7 @@ export const Login = () => {
                     <Link to="/auth/register"> Registrate </Link>
                 </Typography>
             </Card>
+            {localStorage.getItem('is-auth') != 'true' ? null : <Redirect to="/main" />}
         </>
     )
 }

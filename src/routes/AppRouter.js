@@ -21,22 +21,24 @@ import { useDispatch } from 'react-redux';
 import { Caledario } from '../components/reserva/Caledario';
 import { Perfil } from '../components/user/Perfil';
 import { Cita } from '../components/cita/Cita';
+import { Reservas } from '../components/reserva/Reservas';
 
 export const AppRouter = () => {
 
     const dispatch = useDispatch();
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+    let auth = localStorage.getItem('is-auth');
+    let token = localStorage.getItem('access-token');
+    let userId = localStorage.getItem('user-id');
+    let grupoID = localStorage.getItem('grupo-id');
 
 
     useEffect(() => {
 
-        let auth = localStorage.getItem('is-auth');
-        let token = localStorage.getItem('access-token');
-        let userId = localStorage.getItem('user-id');
 
-        if(auth !== isLoggedIn.toString()){
+
+        if (auth) {
             if (auth === 'true') {
                 dispatch(login(userId, token, auth));
                 setIsLoggedIn(true);
@@ -70,37 +72,49 @@ export const AppRouter = () => {
                         strict
                         path="/lista"
                         component={Lista}
-                        isAuthenticated={isLoggedIn}
+                        isAuthenticated={isLoggedIn && grupoID === '1'}
                     />
 
                     <PrivateRoute
                         strict
                         path="/registro"
                         component={Registro}
-                        isAuthenticated={isLoggedIn}
+                        isAuthenticated={isLoggedIn && grupoID === '1'}
                     />
 
                     <PrivateRoute
                         strict
                         path="/registro-doc"
                         component={RegistroDoctor}
-                        isAuthenticated={isLoggedIn}
+                        isAuthenticated={isLoggedIn && grupoID === '1'}
                     />
-                    
-                    <Route 
+
+                    <PrivateRoute
                         exact
                         path="/calendar"
                         component={Caledario}
+                        isAuthenticated={isLoggedIn && grupoID === '2'}
                     />
-                    <Route 
+
+                    <PrivateRoute
                         exact
                         path="/perfil"
                         component={Perfil}
+                        isAuthenticated={isLoggedIn}
                     />
-                    <Route 
+
+                    <PrivateRoute
                         exact
                         path="/cita"
                         component={Cita}
+                        isAuthenticated={isLoggedIn && grupoID === '2'}
+                    />
+
+                    <PrivateRoute
+                        exact
+                        path="/reservas"
+                        component={Reservas}
+                        isAuthenticated={isLoggedIn && grupoID === '2'}
                     />
 
                     <Redirect to="/auth/login" />
